@@ -1,6 +1,8 @@
 const jwt = require("jsonwebtoken");
-const MAIL_JWT_SECRET =
-  "3ec7bbdbd46c700128b3794f67f7788de2e6e4d9a95033b12cefebc7d4de5b845216082ab26c46b93f68c88aa005c59a5a19ae005ced4cf9b07cc55ec9bb1a25";
+
+//node -e "console.log(require('crypto').randomBytes(64).toString('hex'))"
+
+const MAIL_JWT_SECRET = process.env.MAIL_JWT_SECRET;
 exports.createToken = function (payload, options) {
   const token = jwt.sign(payload, MAIL_JWT_SECRET, options);
   return token;

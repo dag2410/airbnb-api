@@ -12,7 +12,9 @@ router.get("/login", authController.showLoginForm);
 router.get("/verify-email", authController.verifyEmail);
 router.post("/login", loginValidator, authController.login);
 router.delete("/logout", authController.logout);
-// router.get("/forgotPassword", authController.showForgotForm);
-// router.get("/resetPassword", authController.showResetForm);
+router.get("/forgot-password", authController.showForgotForm);
+router.post("/forgot-password", authController.handleForgotPassword);
+router.get("/reset-password", authController.showResetForm);
+router.post("/reset-password", authController.handleResetPassword);
 
 module.exports = router;
