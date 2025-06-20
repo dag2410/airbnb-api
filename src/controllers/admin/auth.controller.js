@@ -91,7 +91,6 @@ exports.showResetForm = async (req, res) => {
 
 exports.handleResetPassword = async (req, res) => {
   const token = req.body.token;
-  console.log(token);
   const verify = verifyToken(token);
 
   if (!verify.success) {

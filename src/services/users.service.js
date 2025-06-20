@@ -14,6 +14,10 @@ class UsersService {
     const user = await usersModel.findByEmailAndPassword(email, password);
     return user;
   }
+  async getCountNewUser() {
+    const count = await usersModel.countNewUser();
+    return count;
+  }
 
   async getByEmail(email) {
     const user = await usersModel.findByEmail(email);
@@ -33,6 +37,10 @@ class UsersService {
   async remove(id) {
     const user = await usersModel.remove(id);
     return user;
+  }
+  async count() {
+    const total = await usersModel.count();
+    return total;
   }
 }
 

@@ -6,7 +6,6 @@ const { createToken } = require("@/utils/jwt");
 async function sendVerifyEmailJob(job) {
   const { userId, type } = JSON.parse(job.payload);
   const user = await usersService.getById(userId);
-
   // Tạo link xác thực cho userId
   const token = createToken(
     {

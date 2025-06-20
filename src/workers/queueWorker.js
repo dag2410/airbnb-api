@@ -34,25 +34,26 @@ async function queueWorker() {
   }
 }
 
-async function queueRetry() {
-  while (true) {
-    const jobs = await queueModel.findRejectJobs();
-    for (let job of jobs) {
-      if (job.retries_count < job.max_retries) {
-        await queueModel.update(job.id, {
-          status: "pending",
-          retries_count: job.retries_count + 1,
-        });
-      } else {
-        await queueModel.update(job.id, {
-          status: "failed",
-        });
-      }
-    }
+// retry queue (có 1 file sử dụng với schedule ở tasks/index)
+// async function queueRetry() {
+//   while (true) {
+//     const jobs = await queueModel.findRejectJobs();
+//     for (let job of jobs) {
+//       if (job.retries_count < job.max_retries) {
+//         await queueModel.update(job.id, {
+//           status: "pending",
+//           retries_count: job.retries_count + 1,
+//         });
+//       } else {
+//         await queueModel.update(job.id, {
+//           status: "failed",
+//         });
+//       }
+//     }
 
-    await new Promise((resolve) => setTimeout(resolve, 5000));
-  }
-}
+//     await new Promise((resolve) => setTimeout(resolve, 5000));
+//   }
+// }
 
 queueWorker();
-queueRetry();
+// queueRetry();

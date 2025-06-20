@@ -1,8 +1,8 @@
 {
   "scripts": {
     "dev": "node --watch ./server.js",
-    "queue:work": "node --watch ./src/workers/queueWorker.js",
-    "schedule": "node --watch ./src/utils/scheduler.js"
+    "queue": "node --watch ./src/workers/queueWorker.js",
+    "schedule": "node --watch ./src/tasks/index.js"
   },
   "dependencies": {
     "@faker-js/faker": "^9.7.0",
