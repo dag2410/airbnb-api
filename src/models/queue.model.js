@@ -1,52 +1,46 @@
-const db = require("@/configs/db");
-const { buildInsertQuery, buildUpdateQuery } = require("@/utils/queryBuilder");
-
-exports.findAll = async () => {
-  const [rows] = await db.query("select * from queues");
-  return rows;
-};
-
-exports.findPendingJobs = async () => {
-  const [rows] = await db.query(
-    `select * from queues where status = 'pending'`
+module.exports = (sequelize, DataTypes) => {
+  const Queue = sequelize.define(
+    "Queue",
+    {
+      id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+      },
+      status: {
+        type: DataTypes.STRING(255),
+        allowNull: true,
+        defaultValue: "pending",
+      },
+      type: {
+        type: DataTypes.STRING(255),
+        allowNull: true,
+      },
+      payload: {
+        type: DataTypes.TEXT,
+        allowNull: true,
+      },
+      max_retries: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        defaultValue: 5,
+      },
+      retries_count: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        defaultValue: 0,
+      },
+      retry_at: {
+        type: DataTypes.DATE,
+        allowNull: true,
+      },
+    },
+    {
+      tableName: "queues",
+      underscored: true,
+      timestamps: true,
+    }
   );
-  return rows;
-};
 
-exports.findRejectJobs = async () => {
-  const [rows] = await db.query(`select * from queues where status = 'reject'`);
-  return rows;
-};
-
-exports.findById = async (id) => {
-  const [rows] = await db.query(`select * from queues where id = ?`, [id]);
-  return rows[0] ?? null;
-};
-
-exports.create = async (data) => {
-  const { columns, placeholders, values } = buildInsertQuery(data);
-  const query = `INSERT INTO queues (${columns}) VALUES (${placeholders});`;
-  const [{ insertId }] = await db.query(query, values);
-
-  return {
-    id: insertId,
-    ...data,
-  };
-};
-
-exports.update = async (id, data) => {
-  const { setClause, values } = buildUpdateQuery(data);
-  values.push(id);
-  const query = `UPDATE queues SET ${setClause} WHERE id = ?;`;
-  await db.query(query, values);
-  return {
-    id,
-    ...data,
-  };
-};
-
-exports.remove = async (id) => {
-  const query = `DELETE FROM queues WHERE id = ?`;
-  await db.query(query, [id]);
-  return { id };
+  return Queue;
 };
