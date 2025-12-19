@@ -1,11 +1,10 @@
-const queueModel = require("@/models/queue.model");
+const { Queue } = require("@/models");
 
 async function dispatch(type, payload) {
-  const newQueue = {
+  await Queue.create({
     type,
     payload: JSON.stringify(payload),
-  };
-  await queueModel.create(newQueue);
+  });
 }
 
 module.exports = {
