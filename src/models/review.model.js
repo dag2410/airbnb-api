@@ -78,6 +78,7 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: "user_id",
       as: "author",
     });
+
     Review.belongsTo(models.Room, {
       foreignKey: "room_id",
       as: "room",
@@ -94,6 +95,7 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: "parent_id",
       as: "reply",
     });
+
   };
 
   return Review;
