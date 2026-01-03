@@ -51,6 +51,22 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.ENUM("pending", "success", "failed", "rejected"),
         allowNull: false,
       },
+      status: {
+        type: DataTypes.ENUM(
+          "pending",
+          "confirmed",
+          "staying",
+          "completed",
+          "cancelled"
+        ),
+        defaultValue: "pending",
+        allowNull: false,
+      },
+      is_reviewed: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+      },
     },
     {
       tableName: "bookings",
@@ -58,6 +74,22 @@ module.exports = (sequelize, DataTypes) => {
       timestamps: true,
     }
   );
+
+  Booking.associate = (models) => {
+    Booking.belongsTo(models.User, {
+      foreignKey: "user_id",
+      as: "user",
+    });
+
+    Booking.belongsTo(models.Room, {
+      foreignKey: "room_id",
+      as: "room",
+    });
+    Booking.hasMany(models.Review, {
+      foreignKey: "booking_id",
+      as: "reviews",
+    });
+  };
 
   return Booking;
 };

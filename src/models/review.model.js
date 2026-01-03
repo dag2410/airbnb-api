@@ -27,12 +27,30 @@ module.exports = (sequelize, DataTypes) => {
         onUpdate: "CASCADE",
         onDelete: "CASCADE",
       },
+      booking_id: {
+        type: DataTypes.INTEGER({ unsigned: true }),
+        allowNull: true,
+        references: {
+          model: "bookings",
+          key: "id",
+        },
+        onUpdate: "CASCADE",
+        onDelete: "SET NULL",
+      },
+      parent_id: {
+        type: DataTypes.INTEGER({ unsigned: true }),
+        allowNull: true,
+        references: {
+          model: "reviews",
+          key: "id",
+        },
+      },
       content: {
         type: DataTypes.TEXT,
         allowNull: false,
       },
       rating: {
-        type: DataTypes.DECIMAL(3, 2),
+        type: DataTypes.INTEGER,
         allowNull: true,
         defaultValue: null,
       },
@@ -54,6 +72,29 @@ module.exports = (sequelize, DataTypes) => {
       timestamps: true,
     }
   );
+
+  Review.associate = (models) => {
+    Review.belongsTo(models.User, {
+      foreignKey: "user_id",
+      as: "author",
+    });
+    Review.belongsTo(models.Room, {
+      foreignKey: "room_id",
+      as: "room",
+    });
+    Review.belongsTo(models.Booking, {
+      foreignKey: "booking_id",
+      as: "booking",
+    });
+    Review.belongsTo(models.Review, {
+      foreignKey: "parent_id",
+      as: "parent",
+    });
+    Review.hasOne(models.Review, {
+      foreignKey: "parent_id",
+      as: "reply",
+    });
+  };
 
   return Review;
 };

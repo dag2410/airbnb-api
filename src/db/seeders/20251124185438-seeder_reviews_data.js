@@ -1,26 +1,52 @@
 "use strict";
 const { faker } = require("@faker-js/faker");
 
-const MAX_ROOM_ID = 15;
-const MAX_USER_ID = 10;
-
-/** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    const reviews = [];
-    for (let i = 0; i < 30; i++) {
-      reviews.push({
-        user_id: faker.number.int({ min: 1, max: MAX_USER_ID }),
-        room_id: faker.number.int({ min: 1, max: MAX_ROOM_ID }),
-        content: faker.lorem.sentences({ min: 1, max: 3 }),
-        rating: faker.number.float({ min: 2, max: 5, precision: 0.01 }),
-        is_edited: faker.datatype.boolean(),
-        created_at: faker.date.past(),
-        updated_at: new Date(),
-        deleted_at: faker.datatype.boolean() ? null : null,
-      });
+    // 1. Lấy ra những booking có status là 'completed' để làm review
+    const [completedBookings] = await queryInterface.sequelize.query(
+      `SELECT id, user_id, room_id FROM bookings WHERE status = 'completed'`
+    );
+
+    if (!completedBookings || completedBookings.length === 0) {
+      console.log("No completed bookings found to seed reviews.");
+      return;
     }
-    await queryInterface.bulkInsert("reviews", reviews);
+
+    const reviews = [];
+    const reviewedBookingIds = [];
+
+    completedBookings.forEach((booking) => {
+      // Mỗi booking hoàn thành, ta tạo 1 đánh giá của khách
+      reviews.push({
+        user_id: booking.user_id,
+        room_id: booking.room_id,
+        booking_id: booking.id,
+        parent_id: null, // Review gốc
+        content: faker.lorem.paragraph({ min: 1, max: 2 }),
+        rating: faker.number.int({ min: 1, max: 5 }),
+        is_edited: false,
+        created_at: faker.date.recent(),
+        updated_at: new Date(),
+      });
+
+      reviewedBookingIds.push(booking.id);
+    });
+
+    if (reviews.length > 0) {
+      await queryInterface.bulkInsert("reviews", reviews);
+
+      // 2. Cập nhật is_reviewed = true trong bảng bookings để đồng bộ dữ liệu
+      await queryInterface.sequelize.query(
+        `UPDATE bookings SET is_reviewed = true WHERE id IN (${reviewedBookingIds.join(
+          ","
+        )})`
+      );
+
+      console.log(
+        `Successfully seeded ${reviews.length} reviews and updated bookings.`
+      );
+    }
   },
 
   async down(queryInterface, Sequelize) {
