@@ -82,7 +82,6 @@ exports.handleForgotPassword = async (req, res) => {
 
 exports.showResetForm = async (req, res) => {
   const token = req.query.token;
-  console.log(token);
   res.render("admin/auth/resetPassword", {
     layout: "admin/layout/auth",
     token,
@@ -99,7 +98,6 @@ exports.handleResetPassword = async (req, res) => {
       message: "Liên kết xác minh không hợp lệ hoặc đã hết hạn",
     });
   }
-  console.log(verify);
   const userId = verify.data.userId;
 
   const user = await usersService.getById(userId);

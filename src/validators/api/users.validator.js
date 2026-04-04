@@ -40,34 +40,24 @@ exports.createUserValidator = [
   handlerError,
 ];
 
-// exports.updateUserValidator = [
-//   checkSchema({
-//     title: {
-//       optional: true,
-//       notEmpty: true,
-//       errorMessage: "Trường này không được để trống.",
-//     },
+exports.updateUserValidator = [
+  checkSchema({
+    title: {
+      optional: true,
+      notEmpty: true,
+      errorMessage: "Trường này không được để trống.",
+    },
 
-//     content: {
-//       optional: true,
-//       notEmpty: true,
-//       errorMessage: "Trường này không được để trống.",
-//     },
-//     description: {
-//       optional: true,
-//       notEmpty: true,
-//       errorMessage: "Trường này không được để trống.",
-//     },
-//   }),
-//   handlerError,
-// ];
-
-// exports.createCommentPostValidator = [
-//   checkSchema({
-//     content: {
-//       notEmpty: true,
-//       errorMessage: "Trường này không được để trống.",
-//     },
-//   }),
-//   handlerError,
-// ];
+    content: {
+      optional: true,
+      notEmpty: true,
+      errorMessage: "Trường này không được để trống.",
+    },
+    description: {
+      optional: true,
+      notEmpty: true,
+      errorMessage: "Trường này không được để trống.",
+    },
+  }),
+  handlerError,
+];

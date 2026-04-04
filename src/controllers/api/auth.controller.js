@@ -40,7 +40,6 @@ exports.login = async (req, res) => {
     success(res, 200, data);
   } catch (err) {
     error(res, 400, err.message);
-    console.log(err);
   }
 };
 
@@ -140,18 +139,11 @@ exports.googleCallback = async (req, res, next) => {
     const { code } = req.query;
 
     const data = await authService.getOauthGoogleToken(code);
-    const { id_token, access_token } = data; // Lấy ID token và access token từ kết quả trả về
+    const { id_token, access_token } = data;
     const googleUser = await authService.getGoogleUserInfo({
       id_token,
       access_token,
-    }); // Gửi Google OAuth token để lấy thông tin người dùng từ Google
-
-    // Kiểm tra email đã được xác minh từ Google
-    // if (!googleUser.verified_email) {
-    //   return res.status(400).json({
-    //     message: "Google email not verified",
-    //   });
-    // }
+    });
 
     const refreshToken = await refreshTokenService.createRefreshToken(
       googleUser.id,
