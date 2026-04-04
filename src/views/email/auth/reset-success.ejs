@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mật khẩu đã thay đổi</title>
+  </head>
+  <body
+    style="
+      margin: 0;
+      padding: 0;
+      font-family:
+        -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto,
+        Helvetica, Arial, sans-serif;
+      background-color: #ffffff;
+      line-height: 1.6;
+    "
+  >
+    <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff">
+      <div
+        style="
+          padding: 48px 32px 32px;
+          text-align: center;
+          border-bottom: 1px solid #ebebeb;
+        "
+      >
+        <div style="font-size: 48px; margin-bottom: 16px">✅</div>
+        <h1
+          style="
+            color: #222222;
+            margin: 0;
+            font-size: 26px;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+          "
+        >
+          Thay đổi mật khẩu thành công
+        </h1>
+      </div>
+
+      <div style="padding: 48px 32px">
+        <div style="margin-bottom: 32px">
+          <p style="color: #222222; margin: 0 0 24px; font-size: 16px">
+            Xin chào <strong><%= user.last_name %></strong>,
+          </p>
+          <p style="color: #717171; margin: 0; font-size: 16px">
+            Chúc mừng! Mật khẩu cho tài khoản
+            <strong><%= user.email %></strong> của bạn đã được cập nhật thành
+            công. Bây giờ bạn có thể đăng nhập bằng mật khẩu mới.
+          </p>
+        </div>
+
+        <div style="text-align: center; margin: 40px 0">
+          <a
+            href="<%= loginUrl %>"
+            style="
+              display: inline-block;
+              background-color: #222222;
+              color: #ffffff;
+              text-decoration: none;
+              padding: 14px 24px;
+              border-radius: 8px;
+              font-weight: 600;
+              font-size: 16px;
+            "
+          >
+            Đăng nhập ngay
+          </a>
+        </div>
+
+        <div
+          style="
+            background-color: #f7f7f7;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 32px 0;
+          "
+        >
+          <p
+            style="margin: 0; color: #717171; font-size: 13px; line-height: 1.5"
+          >
+            Nếu bạn <strong>không</strong> thực hiện thay đổi này, vui lòng liên
+            hệ với đội ngũ hỗ trợ của chúng tôi ngay lập tức tại
+            <a
+              href="mailto:dangggg2410@gmail.com"
+              style="color: #ff5a5f; font-weight: 600"
+              >tại đây</a
+            >
+            để bảo vệ tài khoản.
+          </p>
+        </div>
+      </div>
+
+      <div
+        style="
+          background-color: #f7f7f7;
+          padding: 32px;
+          text-align: center;
+          border-top: 1px solid #ebebeb;
+        "
+      >
+        <p
+          style="
+            margin: 0 0 8px;
+            color: #222222;
+            font-size: 14px;
+            font-weight: 600;
+          "
+        >
+          HaiDangCom
+        </p>
+        <div style="margin: 16px 0">
+          <a
+            href="https://github.com/dag2410"
+            style="color: #717171; text-decoration: none; font-size: 12px"
+            >Github</a
+          >
+          <span style="color: #dddddd; margin: 0 8px">|</span>
+          <a
+            href="https://www.facebook.com/haidang2410"
+            style="color: #717171; text-decoration: none; font-size: 12px"
+            >Facebook</a
+          >
+        </div>
+        <p style="margin: 0; color: #717171; font-size: 12px">
+          © 2026 HaiDangCom. Bảo lưu mọi quyền.
+        </p>
+      </div>
+    </div>
+  </body>
+</html>

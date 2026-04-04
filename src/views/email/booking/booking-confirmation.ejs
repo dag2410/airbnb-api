@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Xác nhận đặt phòng</title>
+  </head>
+  <body
+    style="
+      margin: 0;
+      padding: 0;
+      font-family:
+        -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto,
+        &quot;Helvetica Neue&quot;, Arial, sans-serif;
+      background-color: #ffffff;
+      line-height: 1.6;
+    "
+  >
+    <!-- Container chính -->
+    <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff">
+      <!-- Header -->
+      <div
+        style="
+          padding: 48px 32px 32px;
+          text-align: center;
+          border-bottom: 1px solid #ebebeb;
+        "
+      >
+        <img
+          style="
+            border: 2px solid transparent;
+            border-radius: 25px;
+            height: 48px;
+          "
+          src="cid:logo"
+          alt="logo"
+        />
+        <h1
+          style="
+            color: #222222;
+            margin: 16px 0 0;
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+          "
+        >
+          Đặt phòng thành công!
+        </h1>
+        <p
+          style="
+            color: #717171;
+            margin: 12px 0 0;
+            font-size: 16px;
+            line-height: 1.5;
+          "
+        >
+          Cảm ơn bạn đã đặt phòng. Đây là hóa đơn xác nhận của bạn.
+        </p>
+      </div>
+
+      <!-- Nội dung chính -->
+      <div style="padding: 48px 32px">
+        <!-- Mã đặt phòng -->
+        <div
+          style="
+            background-color: #f7f7f7;
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 32px;
+          "
+        >
+          <p
+            style="
+              margin: 0 0 8px;
+              color: #b0b0b0;
+              font-size: 12px;
+              font-weight: 600;
+              text-transform: uppercase;
+              letter-spacing: 0.5px;
+            "
+          >
+            Mã xác nhận đặt phòng
+          </p>
+          <p
+            style="
+              margin: 0;
+              color: #222222;
+              font-size: 32px;
+              font-weight: 700;
+              letter-spacing: 1px;
+            "
+          >
+            <%= booking.confirmationCode %>
+          </p>
+        </div>
+
+        <!-- Thông tin phòng -->
+        <div style="margin-bottom: 32px">
+          <p
+            style="
+              margin: 0 0 16px;
+              color: #222222;
+              font-size: 16px;
+              font-weight: 600;
+            "
+          >
+            Thông tin phòng
+          </p>
+          <p
+            style="
+              margin: 0 0 8px;
+              color: #222222;
+              font-size: 18px;
+              font-weight: 600;
+              line-height: 1.5;
+            "
+          >
+            <%= booking.roomName %>
+          </p>
+          <div style="display: flex; align-items: flex-start; margin-top: 8px">
+            <span
+              style="
+                color: #ff5a5f;
+                margin-right: 8px;
+                font-size: 16px;
+                line-height: 1.4;
+              "
+            >
+              📍
+            </span>
+            <p
+              style="
+                margin: 0;
+                color: #717171;
+                font-size: 14px;
+                line-height: 1.5;
+              "
+            >
+              <%= booking.roomAddress %>
+            </p>
+          </div>
+        </div>
+
+        <!-- Chi tiết đặt phòng -->
+        <div style="margin: 40px 0">
+          <table
+            style="width: 100%; border-collapse: collapse; margin-bottom: 32px"
+          >
+            <tr>
+              <td
+                style="
+                  padding: 16px 0;
+                  border-bottom: 1px solid #ebebeb;
+                  color: #b0b0b0;
+                  font-size: 12px;
+                  font-weight: 600;
+                  text-transform: uppercase;
+                  letter-spacing: 0.5px;
+                "
+              >
+                Ngày vào
+              </td>
+              <td
+                style="
+                  padding: 16px 0;
+                  border-bottom: 1px solid #ebebeb;
+                  color: #b0b0b0;
+                  font-size: 12px;
+                  font-weight: 600;
+                  text-transform: uppercase;
+                  letter-spacing: 0.5px;
+                "
+              >
+                Ngày ra
+              </td>
+              <td
+                style="
+                  padding: 16px 0;
+                  border-bottom: 1px solid #ebebeb;
+                  color: #b0b0b0;
+                  font-size: 12px;
+                  font-weight: 600;
+                  text-transform: uppercase;
+                  letter-spacing: 0.5px;
+                  text-align: right;
+                "
+              >
+                SỐ ĐÊM
+              </td>
+            </tr>
+            <tr>
+              <td
+                style="
+                  padding: 16px 0;
+                  border-bottom: 1px solid #ebebeb;
+                  color: #222222;
+                  font-size: 16px;
+                  font-weight: 600;
+                "
+              >
+                <%= booking.checkInDate %>
+              </td>
+              <td
+                style="
+                  padding: 16px 0;
+                  border-bottom: 1px solid #ebebeb;
+                  color: #222222;
+                  font-size: 16px;
+                  font-weight: 600;
+                "
+              >
+                <%= booking.checkOutDate %>
+              </td>
+              <td
+                style="
+                  padding: 16px 0;
+                  border-bottom: 1px solid #ebebeb;
+                  color: #222222;
+                  font-size: 16px;
+                  font-weight: 600;
+                  text-align: right;
+                "
+              >
+                <%= booking.nights %> đêm
+              </td>
+            </tr>
+          </table>
+
+          <!-- Số khách và tổng tiền -->
+          <table style="width: 100%; border-collapse: collapse">
+            <tr>
+              <td
+                style="
+                  padding: 12px 0;
+                  color: #b0b0b0;
+                  font-size: 12px;
+                  font-weight: 600;
+                  text-transform: uppercase;
+                  letter-spacing: 0.5px;
+                "
+              >
+                KHÁCH
+              </td>
+              <td
+                style="
+                  padding: 12px 0;
+                  text-align: right;
+                  color: #222222;
+                  font-size: 16px;
+                  font-weight: 600;
+                "
+              >
+                <%= booking.guests %> người
+              </td>
+            </tr>
+          </table>
+        </div>
+
+        <!-- Phân chia giá -->
+        <div
+          style="
+            background-color: #f7f7f7;
+            border-radius: 8px;
+            padding: 24px;
+            margin: 32px 0;
+          "
+        >
+          <table
+            style="width: 100%; border-collapse: collapse; margin-bottom: 16px"
+          >
+            <tr>
+              <td
+                style="
+                  padding: 8px 0;
+                  color: #717171;
+                  font-size: 14px;
+                  line-height: 1.5;
+                "
+              >
+                Giá phòng x <%= booking.nights %> đêm
+              </td>
+              <td
+                style="
+                  padding: 8px 0;
+                  text-align: right;
+                  color: #717171;
+                  font-size: 14px;
+                  line-height: 1.5;
+                "
+              >
+                ₫<%= booking.roomPrice.toLocaleString('vi-VN') %>
+              </td>
+            </tr>
+            <tr>
+              <td
+                style="
+                  padding: 8px 0;
+                  color: #717171;
+                  font-size: 14px;
+                  line-height: 1.5;
+                "
+              >
+                Phí dịch vụ
+              </td>
+              <td
+                style="
+                  padding: 8px 0;
+                  text-align: right;
+                  color: #717171;
+                  font-size: 14px;
+                  line-height: 1.5;
+                "
+              >
+                ₫<%= booking.serviceFee.toLocaleString('vi-VN') %>
+              </td>
+            </tr>
+            <tr>
+              <td
+                style="
+                  padding: 8px 0;
+                  color: #717171;
+                  font-size: 14px;
+                  line-height: 1.5;
+                "
+              >
+                Thuế
+              </td>
+              <td
+                style="
+                  padding: 8px 0;
+                  text-align: right;
+                  color: #717171;
+                  font-size: 14px;
+                  line-height: 1.5;
+                "
+              >
+                ₫<%= booking.tax.toLocaleString('vi-VN') %>
+              </td>
+            </tr>
+            <tr>
+              <td
+                style="
+                  padding: 12px 0;
+                  border-top: 1px solid #e0e0e0;
+                  border-bottom: 1px solid #e0e0e0;
+                  color: #222222;
+                  font-size: 16px;
+                  font-weight: 600;
+                  line-height: 1.5;
+                "
+              >
+                TỔNG TIỀN
+              </td>
+              <td
+                style="
+                  padding: 12px 0;
+                  border-top: 1px solid #e0e0e0;
+                  border-bottom: 1px solid #e0e0e0;
+                  text-align: right;
+                  color: #ff5a5f;
+                  font-size: 18px;
+                  font-weight: 700;
+                  line-height: 1.5;
+                "
+              >
+                ₫<%= booking.totalPrice.toLocaleString('vi-VN') %>
+              </td>
+            </tr>
+          </table>
+        </div>
+
+        <!-- Các bước tiếp theo -->
+        <div style="margin: 40px 0">
+          <p
+            style="
+              margin: 0 0 20px;
+              color: #222222;
+              font-size: 16px;
+              font-weight: 600;
+            "
+          >
+            Các bước tiếp theo:
+          </p>
+          <div style="display: flex; margin-bottom: 16px">
+            <span
+              style="
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                width: 32px;
+                height: 32px;
+                background-color: #ff5a5f;
+                border-radius: 50%;
+                color: #ffffff;
+                font-weight: 600;
+                font-size: 16px;
+                margin-right: 16px;
+                flex-shrink: 0;
+              "
+            >
+              ⚡
+            </span>
+            <div>
+              <p
+                style="
+                  margin: 0 0 4px;
+                  color: #222222;
+                  font-size: 15px;
+                  font-weight: 600;
+                "
+              >
+                Chủ nhà sẽ liên hệ với bạn trong 24 giờ tới.
+              </p>
+              <p
+                style="
+                  margin: 0;
+                  color: #717171;
+                  font-size: 14px;
+                  line-height: 1.4;
+                "
+              >
+                Để xác nhận chi tiết check-in và trả lời các câu hỏi của bạn
+              </p>
+            </div>
+          </div>
+          <div style="display: flex">
+            <span
+              style="
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                width: 32px;
+                height: 32px;
+                background-color: #ff5a5f;
+                border-radius: 50%;
+                color: #ffffff;
+                font-weight: 600;
+                font-size: 16px;
+                margin-right: 16px;
+                flex-shrink: 0;
+              "
+            >
+              📅
+            </span>
+            <div>
+              <p
+                style="
+                  margin: 0 0 4px;
+                  color: #222222;
+                  font-size: 15px;
+                  font-weight: 600;
+                "
+              >
+                Lưu mã đặt phòng này để sử dụng khi liên hệ với chủ nhà
+              </p>
+              <p
+                style="
+                  margin: 0;
+                  color: #717171;
+                  font-size: 14px;
+                  line-height: 1.4;
+                "
+              >
+                Hoặc hỗ trợ nếu cần hỗ trợ
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cảnh báo bảo mật -->
+        <div
+          style="
+            background-color: #fff8e1;
+            border-left: 4px solid #ffc107;
+            border-radius: 4px;
+            padding: 16px 20px;
+            margin: 32px 0;
+          "
+        >
+          <p
+            style="
+              margin: 0;
+              color: #484848;
+              font-size: 14px;
+              line-height: 1.5;
+              font-weight: 500;
+            "
+          >
+            <strong>Lưu ý bảo mật:</strong> Không bao giờ gửi tiền trực tiếp cho
+            chủ nhà. Thanh toán được thực hiện thông qua nền tảng của chúng tôi
+            để bảo vệ quyền lợi của bạn.
+          </p>
+        </div>
+
+        <!-- Nút hành động -->
+        <div style="text-align: center; margin: 40px 0">
+          <a
+            href="<%= booking.detailUrl %>"
+            style="
+              display: inline-block;
+              background-color: #222222;
+              color: #ffffff;
+              text-decoration: none;
+              padding: 12px 32px;
+              border-radius: 8px;
+              font-weight: 600;
+              font-size: 16px;
+              margin: 0 8px 12px;
+              transition: background-color 0.2s ease;
+            "
+          >
+            Xem chi tiết đặt phòng
+          </a>
+          <br />
+          <a
+            href="<%= booking.homeUrl %>"
+            style="
+              display: inline-block;
+              background-color: transparent;
+              color: #222222;
+              text-decoration: none;
+              padding: 12px 32px;
+              border: 2px solid #222222;
+              border-radius: 8px;
+              font-weight: 600;
+              font-size: 16px;
+              margin: 0 8px 12px;
+              transition: all 0.2s ease;
+            "
+          >
+            Quay về trang chủ
+          </a>
+        </div>
+
+        <!-- Hỗ trợ -->
+        <div
+          style="padding: 32px 0; margin: 32px 0; border-top: 1px solid #ebebeb"
+        >
+          <p
+            style="
+              color: #717171;
+              margin: 0 0 12px;
+              font-size: 14px;
+              line-height: 1.5;
+              text-align: center;
+            "
+          >
+            Cần hỗ trợ?
+            <a
+              href="<%= booking.supportUrl %>"
+              style="color: #ff5a5f; text-decoration: none; font-weight: 600"
+            >
+              Liên hệ với chúng tôi
+            </a>
+          </p>
+          <p
+            style="
+              color: #717171;
+              margin: 0;
+              font-size: 12px;
+              line-height: 1.5;
+              text-align: center;
+            "
+          >
+            Hoặc reply email này để gửi tin nhắn trực tiếp
+          </p>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div
+        style="
+          background-color: #f7f7f7;
+          padding: 32px;
+          text-align: center;
+          border-top: 1px solid #ebebeb;
+        "
+      >
+        <p
+          style="
+            margin: 0 0 8px;
+            color: #222222;
+            font-size: 14px;
+            font-weight: 600;
+          "
+        >
+          <%= booking.hotelName %>
+        </p>
+        <p style="margin: 0 0 24px; color: #717171; font-size: 13px">
+          <%= booking.hotelAddress %>
+        </p>
+
+        <!-- Social Links -->
+        <div style="margin: 24px 0">
+          <a
+            href="<%= booking.socialLinks.facebook %>"
+            style="
+              display: inline-block;
+              margin: 0 8px;
+              color: #717171;
+              text-decoration: none;
+              font-size: 12px;
+              transition: color 0.2s ease;
+            "
+          >
+            Facebook
+          </a>
+          <span style="color: #dddddd">|</span>
+          <a
+            href="<%= booking.socialLinks.instagram %>"
+            style="
+              display: inline-block;
+              margin: 0 8px;
+              color: #717171;
+              text-decoration: none;
+              font-size: 12px;
+              transition: color 0.2s ease;
+            "
+          >
+            Instagram
+          </a>
+          <span style="color: #dddddd">|</span>
+          <a
+            href="<%= booking.socialLinks.website %>"
+            style="
+              display: inline-block;
+              margin: 0 8px;
+              color: #717171;
+              text-decoration: none;
+              font-size: 12px;
+              transition: color 0.2s ease;
+            "
+          >
+            Website
+          </a>
+        </div>
+
+        <div
+          style="
+            padding-top: 24px;
+            margin-top: 24px;
+            border-top: 1px solid #ebebeb;
+          "
+        >
+          <p style="margin: 0 0 16px; color: #717171; font-size: 12px">
+            © 2025 <%= booking.hotelName %>. Bảo lưu mọi quyền.
+          </p>
+          <div>
+            <a
+              href="<%= booking.links.privacy %>"
+              style="
+                color: #717171;
+                text-decoration: underline;
+                font-size: 12px;
+                margin: 0 12px;
+                transition: color 0.2s ease;
+              "
+            >
+              Chính sách bảo mật
+            </a>
+            <a
+              href="<%= booking.links.terms %>"
+              style="
+                color: #717171;
+                text-decoration: underline;
+                font-size: 12px;
+                margin: 0 12px;
+                transition: color 0.2s ease;
+              "
+            >
+              Điều khoản sử dụng
+            </a>
+            <a
+              href="<%= booking.links.unsubscribe %>"
+              style="
+                color: #717171;
+                text-decoration: underline;
+                font-size: 12px;
+                margin: 0 12px;
+                transition: color 0.2s ease;
+              "
+            >
+              Hủy đăng ký
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <style>
+      @media only screen and (max-width: 600px) {
+        .container {
+          width: 100% !important;
+        }
+        .content {
+          padding: 32px 24px !important;
+        }
+        .header {
+          padding: 32px 24px 24px !important;
+        }
+        table {
+          font-size: 14px !important;
+        }
+      }
+    </style>
+  </body>
+</html>

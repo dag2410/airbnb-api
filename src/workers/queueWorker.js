@@ -18,7 +18,7 @@ async function jobProcess(job) {
           where: {
             id: job.id,
           },
-        }
+        },
       );
       await handler(job);
       await Queue.update(
@@ -27,7 +27,7 @@ async function jobProcess(job) {
           where: {
             id: job.id,
           },
-        }
+        },
       );
     } catch (error) {
       await Queue.update(
@@ -39,7 +39,7 @@ async function jobProcess(job) {
           where: {
             id: job.id,
           },
-        }
+        },
       );
     }
   }
