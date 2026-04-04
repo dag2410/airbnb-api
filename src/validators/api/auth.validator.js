@@ -3,7 +3,7 @@ const handlerError = require("./handlerErrors");
 
 exports.registerValidator = [
   checkSchema({
-    first_name: {
+    firstName: {
       notEmpty: true,
       errorMessage: "Tên không được để trống",
       isLength: {
@@ -12,7 +12,7 @@ exports.registerValidator = [
       },
       trim: true,
     },
-    last_name: {
+    lastName: {
       notEmpty: true,
       errorMessage: "Họ không được để trống",
       isLength: {
@@ -21,6 +21,7 @@ exports.registerValidator = [
       },
       trim: true,
     },
+
     email: {
       notEmpty: true,
       errorMessage: "Email không được để trống",
@@ -42,7 +43,7 @@ exports.registerValidator = [
           "Mật khẩu phải chứa ít nhất 1 chữ hoa, 1 chữ thường và 1 số",
       },
     },
-    confirm: {
+    passwordConfirmation: {
       notEmpty: true,
       errorMessage: "Xác nhận mật khẩu không được để trống",
       custom: {
@@ -71,6 +72,15 @@ exports.loginValidator = [
     password: {
       notEmpty: true,
       errorMessage: "Mật khẩu không được để trống",
+      isLength: {
+        options: { min: 8 },
+        errorMessage: "Mật khẩu phải có ít nhất 8 ký tự",
+      },
+      matches: {
+        options: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
+        errorMessage:
+          "Mật khẩu phải chứa ít nhất 1 chữ hoa, 1 chữ thường và 1 số",
+      },
     },
   }),
   handlerError,
@@ -105,7 +115,7 @@ exports.resetPasswordValidator = [
           "Mật khẩu phải chứa ít nhất 1 chữ hoa, 1 chữ thường và 1 số",
       },
     },
-    confirm: {
+    passwordConfirmation: {
       notEmpty: true,
       errorMessage: "Xác nhận mật khẩu không được để trống",
       custom: {

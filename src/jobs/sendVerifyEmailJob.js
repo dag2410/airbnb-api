@@ -2,9 +2,13 @@ const transporter = require("@/configs/mail");
 const loadEmail = require("@/utils/loadEmail");
 const { createToken } = require("@/utils/jwt");
 const { User } = require("@/models");
-const { EMAIL_VERIFY_TOKEN_EXPIRES_IN } = require("@/configs/auth");
+const {
+  EMAIL_VERIFY_TOKEN_EXPIRES_IN,
+  FRONTEND_URL,
+} = require("@/configs/auth");
 
 async function sendVerifyEmailJob(job) {
+  const now = new Date();
   const { userId, type } = JSON.parse(job.payload);
   const user = await User.findByPk(userId);
   // Tạo link xác thực cho userId
@@ -14,17 +18,25 @@ async function sendVerifyEmailJob(job) {
     },
     {
       expiresIn: EMAIL_VERIFY_TOKEN_EXPIRES_IN,
-    }
+    },
   );
-  const baseUrl = process.env.APP_URL || "http://localhost:3000";
+
+  const baseUrl = FRONTEND_URL;
   const allowType = ["verify-email", "reset-password"];
   const path = allowType.includes(type) ? type : "";
-  const verifyUrl = `${baseUrl}/admin/auth/${path}?token=${token}`;
-
-  const data = { token, userId, user, verifyUrl };
+  const verifyUrl = `${baseUrl}/${path}?token=${token}`;
 
   // Load email từ template ejs
-  const template = await loadEmail("auth/verification", data);
+
+  const emailTemplate = {
+    "verify-email": "auth/verification",
+    "reset-password": "auth/reset-password",
+    "reset-success": "auth/reset-success",
+  };
+
+  const data = { token, userId, user, verifyUrl };
+  const templatePath = emailTemplate[path] || "auth/verification";
+  const template = await loadEmail(templatePath, data);
 
   console.log(`Bắt đầu gửi email tới: ${user.email}`);
 
@@ -51,7 +63,7 @@ async function sendVerifyEmailJob(job) {
       where: {
         id: user.id,
       },
-    }
+    },
   );
 }
 

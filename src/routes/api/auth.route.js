@@ -18,13 +18,13 @@ router.post("/refresh", authController.refreshToken);
 router.post(
   "/forgot-password",
   forgotPasswordValidator,
-  authController.forgotPassword
+  authController.forgotPassword,
 );
 router.get("/reset-password", authController.verifyResetEmail);
 router.post(
   "/reset-password",
   resetPasswordValidator,
-  authController.resetPassword
+  authController.resetPassword,
 );
 
 router.get("/oauth/google", authController.googleRedirect);

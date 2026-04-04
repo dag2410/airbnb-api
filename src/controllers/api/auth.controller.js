@@ -1,4 +1,6 @@
+const { FRONTEND_URL } = require("@/configs/auth");
 const authService = require("@/services/auth.service");
+const refreshTokenService = require("@/services/refreshToken.service");
 const { success, error } = require("@/utils/response");
 
 exports.profile = async (req, res) => {
@@ -11,16 +13,16 @@ exports.profile = async (req, res) => {
 
 exports.register = async (req, res) => {
   try {
-    const { email, password, first_name, last_name } = req.body;
+    const { email, password, firstName, lastName } = req.body;
     const tokenData = await authService.register(
       email,
       password,
-      first_name,
-      last_name
+      firstName,
+      lastName,
     );
     success(res, 201, tokenData);
   } catch (err) {
-    error(res, 401, err.message);
+    error(res, 400, err.message);
   }
 };
 
@@ -37,7 +39,8 @@ exports.login = async (req, res) => {
     const { refresh_token, ...data } = tokenData;
     success(res, 200, data);
   } catch (err) {
-    error(res, 403, err.message);
+    error(res, 400, err.message);
+    console.log(err);
   }
 };
 
@@ -60,7 +63,11 @@ exports.refreshToken = async (req, res) => {
   try {
     const refreshToken = req.cookies?.refresh_token;
     if (!refreshToken) {
-      error(res, 403, "Không tìm thấy refresh token. Vui lòng đăng nhập lại.");
+      return error(
+        res,
+        400,
+        "Không tìm thấy refresh token. Vui lòng đăng nhập lại.",
+      );
     }
     const tokenData = await authService.refreshAccessToken(refreshToken);
     res.cookie("refresh_token", tokenData.refresh_token, {
@@ -72,7 +79,7 @@ exports.refreshToken = async (req, res) => {
     const { refresh_token, ...data } = tokenData;
     success(res, 200, data);
   } catch (err) {
-    error(res, 403, err.message);
+    error(res, 400, err.message);
   }
 };
 
@@ -83,7 +90,7 @@ exports.forgotPassword = async (req, res) => {
     success(
       res,
       200,
-      "Yêu cầu đặt lại mật khẩu đã được gửi đến email của bạn."
+      "Yêu cầu đặt lại mật khẩu đã được gửi đến email của bạn.",
     );
   } catch (err) {
     error(res, 400, err.message);
@@ -125,8 +132,6 @@ exports.verifyResetEmail = async (req, res) => {
 
 exports.googleRedirect = async (req, res) => {
   const url = authService.getGoogleOAuthUrl();
-  console.log("GOOGLE OAUTH URL:", url);
-
   return res.redirect(url);
 };
 
@@ -134,18 +139,33 @@ exports.googleCallback = async (req, res, next) => {
   try {
     const { code } = req.query;
 
-    if (!code) {
-      return res.status(400).json({
-        message: "Google OAuth code not found",
-      });
-    }
+    const data = await authService.getOauthGoogleToken(code);
+    const { id_token, access_token } = data; // Lấy ID token và access token từ kết quả trả về
+    const googleUser = await authService.getGoogleUserInfo({
+      id_token,
+      access_token,
+    }); // Gửi Google OAuth token để lấy thông tin người dùng từ Google
 
-    // tạm thời chỉ trả code để test
-    return res.json({
-      message: "Google callback OK",
-      code,
+    // Kiểm tra email đã được xác minh từ Google
+    // if (!googleUser.verified_email) {
+    //   return res.status(400).json({
+    //     message: "Google email not verified",
+    //   });
+    // }
+
+    const refreshToken = await refreshTokenService.createRefreshToken(
+      googleUser.id,
+    );
+
+    res.cookie("refresh_token", refreshToken.token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "Lax",
+      maxAge: 1000 * 60 * 60 * 24 * 30,
     });
+
+    res.redirect(`${FRONTEND_URL}/oauth-success`);
   } catch (err) {
-    next(err);
+    res.redirect(`${FRONTEND_URL}/oauth-success`);
   }
 };
