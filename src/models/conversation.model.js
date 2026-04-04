@@ -30,5 +30,24 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
+  Conversation.associate = (models) => {
+    Conversation.belongsTo(models.Room, {
+      foreignKey: "room_id",
+      as: "room",
+    });
+
+    Conversation.hasMany(models.Message, {
+      foreignKey: "conversation_id",
+      as: "messages",
+    });
+
+    Conversation.belongsToMany(models.User, {
+      through: "conversation_participant",
+      foreignKey: "conversation_id",
+      otherKey: "user_id",
+      as: "participants",
+    });
+  };
+
   return Conversation;
 };
