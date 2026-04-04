@@ -28,5 +28,14 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
+  Highlight.associate = (models) => {
+    Highlight.belongsToMany(models.Room, {
+      through: "room_highlight",
+      foreignKey: "highlight_id",
+      otherKey: "room_id",
+      as: "rooms",
+    });
+  };
+
   return Highlight;
 };

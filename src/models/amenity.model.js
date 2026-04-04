@@ -22,6 +22,14 @@ module.exports = (sequelize, DataTypes) => {
       timestamps: true,
     }
   );
-
+  
+  Amenity.associate = (models) => {
+    Amenity.belongsToMany(models.Room, {
+      through: "room_amenity",
+      foreignKey: "amenity_id",
+      otherKey: "room_id",
+      as: "rooms",
+    });
+  };
   return Amenity;
 };

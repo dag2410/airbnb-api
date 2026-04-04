@@ -20,5 +20,13 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
+  Hobby.associate = (models) => {
+    Hobby.belongsToMany(models.User, {
+      through: "user_hobby",
+      foreignKey: "hobby_id",
+      otherKey: "user_id",
+      as: "users",
+    });
+  };
   return Hobby;
 };
