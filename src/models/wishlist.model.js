@@ -27,8 +27,25 @@ module.exports = (sequelize, DataTypes) => {
       tableName: "wishlists",
       underscored: true,
       timestamps: true,
+      indexes: [
+        {
+          unique: true,
+          fields: ["user_id", "room_id"],
+        },
+      ],
     }
   );
+
+  Wishlist.associate = (models) => {
+    Wishlist.belongsTo(models.User, {
+      foreignKey: "user_id",
+      as: "user",
+    });
+    Wishlist.belongsTo(models.Room, {
+      foreignKey: "room_id",
+      as: "room",
+    });
+  };
 
   return Wishlist;
 };

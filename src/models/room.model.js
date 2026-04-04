@@ -109,5 +109,58 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
+  Room.associate = (models) => {
+    Room.belongsTo(models.User, {
+      foreignKey: "user_id",
+      as: "host",
+    });
+
+    Room.hasMany(models.Review, {
+      foreignKey: "room_id",
+      as: "reviews",
+    });
+
+    Room.hasMany(models.Booking, {
+      foreignKey: "room_id",
+      as: "bookings",
+    });
+
+    Room.hasMany(models.RoomImage, {
+      foreignKey: "room_id",
+      as: "images",
+    });
+
+    Room.hasMany(models.Conversation, {
+      foreignKey: "room_id",
+      as: "conversations",
+    });
+
+    Room.hasMany(models.Wishlist, {
+      foreignKey: "room_id",
+      as: "wishlists_room",
+    });
+
+    Room.belongsToMany(models.Amenity, {
+      through: "room_amenity",
+      foreignKey: "room_id",
+      otherKey: "amenity_id",
+      as: "amenities",
+    });
+
+    Room.belongsToMany(models.Highlight, {
+      through: "room_highlight",
+      foreignKey: "room_id",
+      otherKey: "highlight_id",
+      as: "highlights",
+    });
+
+    Room.belongsToMany(models.User, {
+      through: models.Wishlist,
+      foreignKey: "room_id",
+      otherKey: "user_id",
+      as: "wishlisted_by",
+    });
+  };
+
   return Room;
 };

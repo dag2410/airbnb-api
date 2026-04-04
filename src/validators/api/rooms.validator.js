@@ -4,29 +4,70 @@ const handlerError = require("./handlerErrors");
 exports.createRoomValidator = [
   checkSchema({
     title: {
-      notEmpty: true,
-      errorMessage: "Trường này không được để trống",
+      notEmpty: { errorMessage: "Tiêu đề không được để trống" },
+      trim: true,
     },
-    price: {
-      notEmpty: true,
-      errorMessage: "Trường này không được để trống",
+    description: {
+      notEmpty: { errorMessage: "Mô tả không được để trống" },
+      trim: true,
     },
-    location: {
-      notEmpty: true,
-      errorMessage: "Trường này không được để trống",
+    introduce: {
+      optional: true,
+      trim: true,
     },
-    bedrooms: {
-      notEmpty: {
-        errorMessage: "Trường này được để trống",
+    property_type: {
+      notEmpty: { errorMessage: "Loại chỗ ở không được để trống" },
+      isIn: {
+        options: [["apartment", "hotel_room", "house"]],
+        errorMessage: "Loại chỗ ở phải là apartment, hotel_room hoặc house",
       },
-      isInt: {
+    },
+    room_ward: {
+      notEmpty: { errorMessage: "Phường/Xã không được để trống" },
+      trim: true,
+    },
+    room_district: {
+      notEmpty: { errorMessage: "Quận/Huyện không được để trống" },
+      trim: true,
+    },
+    room_city: {
+      notEmpty: { errorMessage: "Thành phố không được để trống" },
+      trim: true,
+    },
+    address_line: {
+      notEmpty: { errorMessage: "Địa chỉ chi tiết không được để trống" },
+      trim: true,
+    },
+    price_per_night: {
+      notEmpty: { errorMessage: "Giá phòng không được để trống" },
+      isFloat: {
         options: { min: 0 },
-        errorMessage: "Bedrooms phải là số nguyên không âm",
+        errorMessage: "Giá phòng phải là số không âm",
       },
     },
     amenities: {
-      notEmpty: true,
-      errorMessage: "Trường này không được để trống",
+      optional: true,
+      isArray: { errorMessage: "Amenities phải là một mảng" },
+    },
+    "amenities.*": {
+      isInt: { errorMessage: "ID tiện nghi không hợp lệ" },
+    },
+
+    highlights: {
+      optional: true,
+      isArray: { errorMessage: "Highlights phải là một mảng" },
+    },
+    "highlights.*": {
+      isInt: { errorMessage: "ID highlight không hợp lệ" },
+    },
+    images: {
+      isArray: {
+        options: { min: 6 },
+        errorMessage: "Phải có ít nhất 6 hình ảnh",
+      },
+    },
+    "images.*.url": {
+      isURL: { errorMessage: "Định dạng URL ảnh không hợp lệ" },
     },
   }),
   handlerError,
@@ -36,30 +77,47 @@ exports.updateRoomValidator = [
   checkSchema({
     title: {
       optional: true,
-      notEmpty: true,
-      errorMessage: "Trường này không được để trống",
+      notEmpty: { errorMessage: "Tiêu đề không được để trống" },
+      trim: true,
     },
-
-    price: {
+    description: {
       optional: true,
-      notEmpty: true,
-      errorMessage: "Trường này không được để trống",
+      notEmpty: { errorMessage: "Mô tả không được để trống" },
+      trim: true,
     },
-    location: {
+    introduce: {
       optional: true,
-      notEmpty: true,
-      errorMessage: "Trường này không được để trống",
+      trim: true,
     },
-    bedrooms: {
+    property_type: {
       optional: true,
-      isInt: {
-        options: { min: 0 },
-        errorMessage: "Trường này phải là số không âm",
+      isIn: {
+        options: [["apartment", "hotel_room", "house"]],
+        errorMessage: "Loại chỗ ở không hợp lệ",
       },
     },
-    amenities: {
-      notEmpty: true,
-      errorMessage: "Trường này không được để trống",
+    room_ward: {
+      optional: true,
+      notEmpty: { errorMessage: "Phường/Xã không được để trống" },
+    },
+    room_district: {
+      optional: true,
+      notEmpty: { errorMessage: "Quận/Huyện không được để trống" },
+    },
+    room_city: {
+      optional: true,
+      notEmpty: { errorMessage: "Thành phố không được để trống" },
+    },
+    address_line: {
+      optional: true,
+      notEmpty: { errorMessage: "Địa chỉ chi tiết không được để trống" },
+    },
+    price_per_night: {
+      optional: true,
+      isFloat: {
+        options: { min: 0 },
+        errorMessage: "Giá phòng phải là số không âm",
+      },
     },
   }),
   handlerError,
