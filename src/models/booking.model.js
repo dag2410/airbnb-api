@@ -43,21 +43,13 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.DECIMAL(10, 2),
         allowNull: false,
       },
-      payment_method: {
-        type: DataTypes.ENUM("momo", "stripe"),
-        allowNull: false,
-      },
-      payment_status: {
-        type: DataTypes.ENUM("pending", "success", "failed", "rejected"),
-        allowNull: false,
-      },
       status: {
         type: DataTypes.ENUM(
           "pending",
           "confirmed",
           "staying",
           "completed",
-          "cancelled"
+          "cancelled",
         ),
         defaultValue: "pending",
         allowNull: false,
@@ -67,12 +59,16 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         defaultValue: false,
       },
+      cancelled_at: {
+        type: DataTypes.DATE,
+        allowNull: true,
+      },
     },
     {
       tableName: "bookings",
       underscored: true,
       timestamps: true,
-    }
+    },
   );
 
   Booking.associate = (models) => {
