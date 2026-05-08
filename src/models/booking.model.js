@@ -63,6 +63,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.DATE,
         allowNull: true,
       },
+      expired_at: {
+        type: DataTypes.DATE,
+        allowNull: true,
+      },
     },
     {
       tableName: "bookings",
@@ -85,6 +89,10 @@ module.exports = (sequelize, DataTypes) => {
     Booking.hasMany(models.Review, {
       foreignKey: "booking_id",
       as: "reviews",
+    });
+    Booking.hasMany(models.Payment, {
+      foreignKey: "booking_id",
+      as: "payments",
     });
   };
 
