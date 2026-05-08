@@ -1,5 +1,5 @@
 const { Op, fn, col, literal, where } = require("sequelize");
-const { Room, Wishlist, User } = require("@/models");
+const { Room, Wishlist, User, Booking } = require("@/models");
 const { default: slugify } = require("slugify");
 const generateUniqueSLug = require("@/utils/generateUniqueSlug");
 
@@ -10,6 +10,35 @@ class RoomService {
       offset,
       order: [["createdAt", "DESC"]],
     });
+  }
+
+  async getRoomsByHost(userId, page = 1, limit = 10) {
+    page = Number(page) || 1;
+    limit = Number(limit) || 10;
+
+    const offset = (page - 1) * limit;
+
+    const { rows, count } = await Room.findAndCountAll({
+      where: {
+        user_id: userId,
+      },
+
+      limit,
+      offset,
+
+      order: [["created_at", "DESC"]],
+    });
+
+    return {
+      rooms: rows,
+
+      pagination: {
+        total: count,
+        page,
+        limit,
+        totalPages: Math.ceil(count / limit),
+      },
+    };
   }
 
   async getBySlug(slug) {
@@ -43,7 +72,7 @@ class RoomService {
   }
 
   async deleteRoom(slug, userId) {
-    const room = await Room.findOne({ where: { slug } });
+    const room = await Room.findOne({ where: { slug, user_id: userId } });
 
     if (!room) return null;
 
@@ -85,6 +114,40 @@ class RoomService {
       order: [["rating", "DESC"]],
       limit,
     });
+  }
+
+  async getBookedDates(slug) {
+    const room = await Room.findOne({
+      where: {
+        slug: slug,
+      },
+    });
+    const booking = await Booking.findAll({
+      where: {
+        room_id: room.id,
+        [Op.or]: [
+          {
+            status: "pending",
+            expired_at: {
+              [Op.gt]: new Date(),
+            },
+          },
+          {
+            status: {
+              [Op.in]: ["confirmed", "staying"],
+            },
+          },
+        ],
+      },
+      attributes: ["check_in_date", "check_out_date"],
+    });
+
+    const bookingDateFormat = booking.map((b) => ({
+      check_in_date: b.check_in_date.toISOString().split("T")[0],
+      check_out_date: b.check_out_date.toISOString().split("T")[0],
+    }));
+
+    return bookingDateFormat;
   }
 }
 

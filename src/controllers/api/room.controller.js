@@ -4,8 +4,6 @@ const { success, error } = require("@/utils/response");
 exports.index = async (req, res) => {
   try {
     const { type, limit, offset } = req.query;
-    const userId = req.user?.id;
-
     let rooms;
 
     switch (type) {
@@ -35,9 +33,18 @@ exports.index = async (req, res) => {
   }
 };
 
+exports.getMyRooms = async (req, res) => {
+  try {
+    const { page, limit } = req.query;
+    const rooms = await roomService.getRoomsByHost(req.user.id, page, limit);
+    success(res, 200, rooms);
+  } catch (err) {
+    error(res, 500, err.message);
+  }
+};
+
 exports.show = async (req, res) => {
   try {
-    // req.room đã được attach từ attachResourceLoader
     success(res, 200, req.room);
   } catch (err) {
     error(res, 500, err.message);
@@ -88,5 +95,14 @@ exports.remove = async (req, res) => {
       error(res, 403, "Forbidden");
     }
     error(res, 500, err.message);
+  }
+};
+
+exports.getBookedDates = async (req, res) => {
+  try {
+    const booking = await roomService.getBookedDates(req.room.slug);
+    success(res, 200, booking);
+  } catch (err) {
+    error(res, 403, err.message);
   }
 };
