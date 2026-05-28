@@ -1,4 +1,4 @@
-const { Booking, sequelize } = require("@/models");
+const { Booking, Room, sequelize } = require("@/models");
 const { Op, where } = require("sequelize");
 
 class BookingService {
@@ -42,6 +42,11 @@ class BookingService {
   ) {
     return await sequelize.transaction(async (t) => {
       const now = new Date();
+      const room = await Room.findByPk(roomId, { transaction: t });
+
+      if (room.user_id === userId) {
+        throw new Error("Không thể đặt phòng của chính mình!");
+      }
 
       if (new Date(checkIn) >= new Date(checkOut)) {
         throw new Error("Khoảng ngày check in và check out không hợp lệ!");

@@ -2,41 +2,30 @@
 
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("payments", {
+    await queryInterface.createTable("wallets", {
       id: {
         type: Sequelize.INTEGER({ unsigned: true }),
         autoIncrement: true,
         primaryKey: true,
       },
-      booking_id: {
+      user_id: {
         type: Sequelize.INTEGER({ unsigned: true }),
+        allowNull: false,
+        unique: true,
         references: {
-          model: "bookings",
+          model: "users",
           key: "id",
         },
         onDelete: "CASCADE",
       },
-      provider: {
-        type: Sequelize.ENUM("momo", "vnpay"),
-        allowNull: false,
-      },
-      amount: {
+      balance: {
         type: Sequelize.DECIMAL(10, 2),
         allowNull: false,
+        defaultValue: 0.0,
       },
-      status: {
-        type: Sequelize.ENUM("pending", "paid", "failed"),
-        defaultValue: "pending",
-      },
-      transaction_id: {
-        type: Sequelize.STRING,
-      },
-      provider_order_id: {
-        type: Sequelize.STRING,
-        unique: true,
-      },
-      paid_at: {
+      last_received_at: {
         type: Sequelize.DATE,
+        allowNull: true,
       },
       created_at: {
         type: Sequelize.DATE,
@@ -50,6 +39,6 @@ module.exports = {
   },
 
   async down(queryInterface) {
-    await queryInterface.dropTable("payments");
+    await queryInterface.dropTable("wallets");
   },
 };

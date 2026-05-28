@@ -191,6 +191,11 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: "role_id",
       as: "role",
     });
+
+    User.hasOne(models.Wallet, {
+      foreignKey: "user_id",
+      as: "wallet",
+    });
   };
 
   return User;

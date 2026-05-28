@@ -2,10 +2,11 @@ require("module-alias/register");
 
 const { Queue } = require("@/models");
 const sendVerifyEmailJob = require("@/jobs/sendVerifyEmailJob");
-const { where } = require("sequelize");
+const handlePaymentResult = require("@/jobs/handlePaymentResult");
 
 const handlers = {
   sendVerifyEmailJob,
+  handlePaymentResult,
 };
 
 async function jobProcess(job) {
@@ -61,26 +62,4 @@ async function queueWorker() {
   }
 }
 
-// retry queue (có 1 file sử dụng với schedule ở tasks/index)
-// async function queueRetry() {
-//   while (true) {
-//     const jobs = await Queue.findRejectJobs();
-//     for (let job of jobs) {
-//       if (job.retries_count < job.max_retries) {
-//         await Queue.update(job.id, {
-//           status: "pending",
-//           retries_count: job.retries_count + 1,
-//         });
-//       } else {
-//         await Queue.update(job.id, {
-//           status: "failed",
-//         });
-//       }
-//     }
-
-//     await new Promise((resolve) => setTimeout(resolve, 5000));
-//   }
-// }
-
 queueWorker();
-// queueRetry();
