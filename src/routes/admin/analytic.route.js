@@ -1,5 +1,5 @@
 const express = require("express");
-const analyticsController = require("@/controllers/admin/analytics.controller");
+const analyticsController = require("@/controllers/admin/analytic.controller");
 
 const router = express.Router();
 

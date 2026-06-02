@@ -1,27 +1,28 @@
 const express = require("express");
 const dashboardRouter = require("./dashboard.route");
-const postsRouter = require("./posts.route");
-const usersRouter = require("./users.route");
-const commentsRouter = require("./comments.route");
+const roomsRouter = require("./room.route");
+const userRouter = require("./user.route");
 const settingsRouter = require("./setting.route");
 const accountSettingsRouter = require("./accountSettings.route");
-const analyticsRouter = require("./analytics.route");
-const topicsRouter = require("./topics.route");
-const roomsRouter = require("./rooms.route");
-const categoriesRouter = require("./categories.route");
+const analyticsRouter = require("./analytic.route");
+const reviewRouter = require("./review.route");
+const paymentRouter = require("./payment.route");
+const bookingRouter = require("./booking.route");
+const walletRouter = require("./wallet.route");
 const authRouter = require("./auth.route");
+
 const router = express.Router();
 
 router.use("/", dashboardRouter);
-router.use("/posts", postsRouter);
-router.use("/users", usersRouter);
+router.use("/users", userRouter);
+router.use("/rooms", roomsRouter);
+router.use("/bookings", bookingRouter);
+router.use("/payments", paymentRouter);
+router.use("/wallets", walletRouter);
 router.use("/settings", settingsRouter);
 router.use("/accountSettings", accountSettingsRouter);
 router.use("/analytics", analyticsRouter);
-router.use("/topics", topicsRouter);
-router.use("/rooms", roomsRouter);
-router.use("/categories", categoriesRouter);
-router.use("/comments", commentsRouter);
+router.use("/reviews", reviewRouter);
 router.use("/auth", authRouter);
 
 module.exports = router;
