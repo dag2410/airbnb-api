@@ -731,3 +731,45 @@ h6 {
 .dropdown-item:hover i {
   color: #3a86ff;
 }
+
+.empty-state {
+  text-align: center;
+  padding: 48px 24px;
+  color: #666;
+}
+
+.empty-state i {
+  font-size: 48px;
+  color: #ccc;
+  margin-bottom: 16px;
+}
+
+.detail-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.detail-card p {
+  margin-bottom: 12px;
+}
+
+.text-muted {
+  color: #888;
+  font-size: 14px;
+}
+
+.inline-form {
+  display: inline;
+}
+
+.badge-secondary {
+  background: #e9ecef;
+  color: #495057;
+}
+
+.badge-info {
+  background: #cff4fc;
+  color: #055160;
+}

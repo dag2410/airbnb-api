@@ -15,7 +15,10 @@
     "seed:generate": "npx sequelize-cli seed:generate --name"
   },
   "dependencies": {
+    "@adminjs/express": "^5.1.0",
+    "@adminjs/sequelize": "^3.0.0",
     "@faker-js/faker": "^9.7.0",
+    "adminjs": "^6.8.7",
     "axios": "^1.13.6",
     "bcrypt": "^6.0.0",
     "cloudinary": "^1.41.3",
@@ -27,7 +30,7 @@
     "express": "^5.1.0",
     "express-ejs-layouts": "^2.5.1",
     "express-flash": "^0.0.2",
-    "express-session": "^1.18.1",
+    "express-session": "^1.19.0",
     "express-validator": "^7.2.1",
     "jsonwebtoken": "^9.0.2",
     "md5": "^2.3.0",
