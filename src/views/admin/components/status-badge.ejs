@@ -1,0 +1,18 @@
+<%
+  const statusClassMap = {
+    pending: 'badge-warning',
+    confirmed: 'badge-info',
+    staying: 'badge-info',
+    completed: 'badge-success',
+    paid: 'badge-success',
+    failed: 'badge-danger',
+    cancelled: 'badge-danger',
+    active: 'badge-success',
+    inactive: 'badge-danger',
+  };
+  const statusValue = typeof status !== 'undefined' ? status : 'unknown';
+  const badgeClass = statusClassMap[statusValue] || 'badge-secondary';
+  const text =
+    typeof displayText !== 'undefined' && displayText ? displayText : statusValue;
+%>
+<span class="badge <%= badgeClass %>"><%= text %></span>

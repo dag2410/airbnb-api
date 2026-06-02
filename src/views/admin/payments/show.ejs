@@ -1,0 +1,16 @@
+<div class="content-header">
+  <h1><%= title %></h1>
+  <a href="/admin/payments" class="btn btn-secondary">← Quay lại</a>
+  <a href="/admin/payments/<%= payment.id %>/edit" class="btn btn-primary">Sửa</a>
+</div>
+
+<div class="detail-card">
+  <p><strong>Booking:</strong> #<%= payment.booking_id %></p>
+  <p><strong>Provider:</strong> <%= payment.provider %></p>
+  <p><strong>Số tiền:</strong> <%= formatCurrency(payment.amount) %></p>
+  <p><strong>Trạng thái:</strong> <%- include('../components/status-badge', { status: payment.status }) %></p>
+  <p><strong>Transaction ID:</strong> <%= payment.transaction_id || '—' %></p>
+  <p><strong>Order ID:</strong> <%= payment.provider_order_id || '—' %></p>
+  <p><strong>Thanh toán lúc:</strong> <%= formatDate(payment.paid_at) %></p>
+  <p><strong>Tạo lúc:</strong> <%= formatDate(payment.created_at) %></p>
+</div>

@@ -1,0 +1,15 @@
+<%
+  const pageTitle = typeof title !== 'undefined' ? title : '';
+  const subtitleText = typeof subtitle !== 'undefined' ? subtitle : '';
+%>
+<div class="content-header">
+  <div>
+    <h1><%= pageTitle %></h1>
+    <% if (subtitleText) { %>
+      <p class="text-muted"><%= subtitleText %></p>
+    <% } %>
+  </div>
+  <% if (typeof actionsHtml !== 'undefined' && actionsHtml) { %>
+    <div class="header-actions"><%- actionsHtml %></div>
+  <% } %>
+</div>

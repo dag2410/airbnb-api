@@ -5,9 +5,10 @@ const router = express.Router();
 
 router.get("/", roomsController.index);
 router.get("/create", roomsController.create);
-router.get("/:id", roomsController.show);
 router.post("/", roomsController.store);
 router.get("/:id/edit", roomsController.edit);
-router.post("/:id", roomsController.update);
+router.get("/:id", roomsController.show);
+router.put("/:id", roomsController.update);
+router.delete("/:id", roomsController.destroy);
 
 module.exports = router;

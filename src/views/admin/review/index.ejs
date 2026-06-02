@@ -1,0 +1,59 @@
+<div class="content-header">
+  <h1><%= title %></h1>
+</div>
+
+<div class="table-container">
+  <% if (!reviews || !reviews.length) { %>
+    <%- include('../components/empty-state', { title: 'Chưa có đánh giá', message: 'Chưa có review nào trong hệ thống.' }) %>
+  <% } else { %>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nội dung</th>
+          <th>Người viết</th>
+          <th>Phòng</th>
+          <th>Điểm</th>
+          <th>Ngày tạo</th>
+          <th>Thao tác</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% reviews.forEach(function(review) { %>
+          <tr>
+            <td>#<%= review.id %></td>
+            <td>
+              <div class="item-title" style="max-width: 280px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                <%= review.content %>
+              </div>
+            </td>
+            <td><%= review.author ? (review.author.username || review.author.id) : review.user_id %></td>
+            <td>
+              <% if (review.room) { %>
+                <a href="/admin/rooms/<%= review.room.id %>"><%= review.room.title || review.room_id %></a>
+              <% } else { %>
+                #<%= review.room_id %>
+              <% } %>
+            </td>
+            <td>
+              <% if (review.rating) { %>
+                <span class="badge badge-warning"><i class="fas fa-star"></i> <%= review.rating %></span>
+              <% } else { %>
+                —
+              <% } %>
+            </td>
+            <td><%= formatDate(review.createdAt) %></td>
+            <td>
+              <%- include('../components/action-buttons', {
+                viewUrl: '/admin/reviews/' + review.id,
+                editUrl: '/admin/reviews/' + review.id + '/edit',
+                deleteUrl: '/admin/reviews/' + review.id,
+                confirmMessage: 'Xóa đánh giá #' + review.id + '?'
+              }) %>
+            </td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  <% } %>
+</div>

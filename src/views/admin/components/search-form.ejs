@@ -1,0 +1,29 @@
+<%
+  const formLabel =
+    typeof label !== 'undefined' && label ? label : 'Tìm kiếm';
+  const formPlaceholder =
+    typeof placeholder !== 'undefined' && placeholder
+      ? placeholder
+      : 'Nhập từ khóa...';
+  const searchValue =
+    typeof query !== 'undefined' && query && query.search ? query.search : '';
+%>
+<form method="GET" action="<%= action %>" class="filter-form search-form">
+  <div class="form-group">
+    <label for="searchInput"><%= formLabel %></label>
+    <input
+      type="text"
+      id="searchInput"
+      name="search"
+      class="form-control"
+      placeholder="<%= formPlaceholder %>"
+      value="<%= searchValue %>"
+    />
+  </div>
+  <div class="form-group filter-actions">
+    <button type="submit" class="btn btn-primary">
+      <i class="fas fa-search"></i> Tìm
+    </button>
+    <a href="<%= action %>" class="btn btn-secondary">Xóa bộ lọc</a>
+  </div>
+</form>

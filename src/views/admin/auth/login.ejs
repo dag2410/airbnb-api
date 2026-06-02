@@ -1,7 +1,7 @@
 <body>
   <div class="login-container">
     <div class="logo">
-      <h1>Login<h1>
+      <h1>Login Dashboard</h1>
     </div>
 
     <form method="post" action="/admin/auth/login" id="loginForm" novalidate>
@@ -48,10 +48,10 @@
           margin-bottom: 20px;
         "
       >
-        <div class="remember-me">
+        <!-- <div class="remember-me">
           <input type="checkbox" id="remember" />
           <label for="remember">Remember me</label>
-        </div>
+        </div> -->
 
         <a
           href="/admin/auth/forgot-password"
@@ -62,12 +62,6 @@
 
       <button type="submit" class="btn">Login</button>
 
-      <div class="footer">
-        <p>
-          Don't have an account?
-          <a href="/admin/auth/register">Register</a>
-        </p>
-      </div>
     </form>
   </div>
 

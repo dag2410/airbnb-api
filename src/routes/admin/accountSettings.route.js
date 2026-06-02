@@ -4,5 +4,7 @@ const accountSettingsController = require("@/controllers/admin/accountSetting.co
 const router = express.Router();
 
 router.get("/", accountSettingsController.index);
+router.put("/profile", accountSettingsController.updateProfile);
+router.put("/password", accountSettingsController.updatePassword);
 
 module.exports = router;

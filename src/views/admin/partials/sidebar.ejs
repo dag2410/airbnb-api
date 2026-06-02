@@ -2,7 +2,7 @@
 <aside class="sidebar">
   <div class="sidebar-logo">
     <h1>
-    <%= auth ? `Hi, ${auth?.name}`: "Admin Dashboard" %>
+    <%= auth ? `Hi, ${getDisplayName(auth)}` : "Airbnb Admin" %>
     </h1>
   </div>
 
@@ -18,7 +18,7 @@
   <div class="user-profile" id="userProfileDropdown">
     <div class="avatar">JD</div>
     <div class="user-info">
-      <p><%= auth?.name %></p>
+      <p><%= auth ? getDisplayName(auth) : 'Guest' %></p>
       <small>Administrator</small>
     </div>
     <i class="fas fa-chevron-down dropdown-icon"></i>
@@ -27,7 +27,7 @@
         <i class="fas fa-user-cog"></i> Account Settings
       </a>
       <form method="POST" action="/admin/auth/logout?_method=DELETE">
-        <button type="submit" style="border: none;background-color: transparent; padding: 10px   ;" class="dropdown-item">
+        <button type="submit" style="border: none;background-color: transparent; padding: 10px; width: 100%; text-align: left; font-size: 16px;" class="dropdown-item">
           <i class="fas fa-sign-out-alt"></i> Logout
         </button> 
       </form>

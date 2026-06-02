@@ -3,13 +3,14 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Products | Admin Dashboard</title>
+    <title><%= typeof title !== 'undefined' ? title : 'Admin' %> | Airbnb Admin</title>
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
     <link rel="stylesheet" href="/assets/css/common.css" />
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="/assets/css/dashboard.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   </head>
   <body>
     <div class="app-container">
@@ -18,8 +19,9 @@
 
       <!-- Main Content -->
       <main class="content-wrapper">
-        <!-- flash message -->
-        <%- include("../partials/flash-message") %> <%- body %>
+        <%- include("../partials/header") %>
+        <%- include("../partials/flash-message") %>
+        <%- body %>
       </main>
     </div>
 
@@ -53,5 +55,6 @@
     </div>
 
     <script src="/assets/js/common.js"></script>
+    <script src="/assets/js/admin-dashboard.js"></script>
   </body>
 </html>

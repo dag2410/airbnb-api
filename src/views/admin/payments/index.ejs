@@ -1,0 +1,54 @@
+<div class="content-header">
+  <h1><%= title %></h1>
+</div>
+
+<%- include('../components/search-form', { action: '/admin/payments', label: 'Tìm order/transaction', placeholder: 'Mã giao dịch...' }) %>
+<%- include('../components/filter-bar', {
+  action: '/admin/payments',
+  filters: [
+    { name: 'status', label: 'Trạng thái', type: 'select', options: statusOptions.map(s => ({ value: s, label: s })) },
+    { name: 'provider', label: 'Provider', type: 'select', options: providerOptions.map(p => ({ value: p, label: p })) }
+  ]
+}) %>
+
+<div class="table-container">
+  <% if (!payments.length) { %>
+    <%- include('../components/empty-state', { title: 'Chưa có thanh toán' }) %>
+  <% } else { %>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Booking</th>
+          <th>User</th>
+          <th>Provider</th>
+          <th>Số tiền</th>
+          <th>Trạng thái</th>
+          <th>Ngày tạo</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% payments.forEach(function(p) { %>
+          <tr>
+            <td>#<%= p.id %></td>
+            <td>#<%= p.booking_id %></td>
+            <td><%= p.booking?.user ? getDisplayName(p.booking.user) : '—' %></td>
+            <td><%= p.provider %></td>
+            <td><%= formatCurrency(p.amount) %></td>
+            <td><%- include('../components/status-badge', { status: p.status }) %></td>
+            <td><%= formatDate(p.createdAt) %></td>
+            <td>
+              <%- include('../components/action-buttons', {
+                viewUrl: '/admin/payments/' + p.id,
+                editUrl: '/admin/payments/' + p.id + '/edit',
+              }) %>
+            </td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+    <% const qs = Object.entries(query || {}).filter(([k,v]) => v && k !== 'page').map(([k,v]) => k + '=' + encodeURIComponent(v)).join('&'); %>
+    <%- include('../components/pagination', { pagination, baseUrl: '/admin/payments', queryString: qs }) %>
+  <% } %>
+</div>

@@ -1,30 +1,18 @@
-<% getFlashMessages('').forEach(f => { %>
-<div class="flash-message <%= f.type %>"><%= f.message %></div>
-<% }); %>
+<%- include('../components/flash-messages') %>
 
 <style>
   .flash-message {
-    padding: 16px;
-    margin-bottom: 10px;
-    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 16px;
+    margin-bottom: 12px;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    font-size: 14px;
   }
-
-  .flash-message.success {
-    border-color: #a3cfbb;
-    background: #d1e7dd;
-  }
-
-  .flash-message.error {
-    border-color: #f5c2c7;
-    background: #f8d7da;
-  }
-
-  .flash-message.warning {
-    border-color: #ffeeba;
-    background: #fff3cd;
-  }
-  .flash-message.info {
-    border-color: #bad9ff;
-    background: #9abcff;
-  }
+  .flash-message.success { background: #d1e7dd; border-color: #a3cfbb; color: #0f5132; }
+  .flash-message.error { background: #f8d7da; border-color: #f5c2c7; color: #842029; }
+  .flash-message.warning { background: #fff3cd; border-color: #ffeeba; color: #664d03; }
+  .flash-message.info { background: #cff4fc; border-color: #9eeaf9; color: #055160; }
 </style>

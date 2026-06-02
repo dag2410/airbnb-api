@@ -1,0 +1,28 @@
+<%
+  const qs = typeof queryString !== 'undefined' ? queryString : '';
+  const base = typeof baseUrl !== 'undefined' ? baseUrl : '';
+%>
+<% if (pagination && pagination.total > 0) { %>
+<div class="pagination-container">
+  <div class="pagination-info">
+    Hiển thị <%= pagination.from %>–<%= pagination.to %> / <%= pagination.total %>
+  </div>
+  <ul class="pagination">
+    <% if (pagination.hasPrev) { %>
+      <li><a href="<%= base %>?page=<%= pagination.page - 1 %><%= qs ? '&' + qs : '' %>">‹</a></li>
+    <% } %>
+    <% for (let p = 1; p <= pagination.totalPages; p++) { %>
+      <% if (p === 1 || p === pagination.totalPages || Math.abs(p - pagination.page) <= 2) { %>
+        <li class="<%= p === pagination.page ? 'active' : '' %>">
+          <a href="<%= base %>?page=<%= p %><%= qs ? '&' + qs : '' %>"><%= p %></a>
+        </li>
+      <% } else if (p === pagination.page - 3 || p === pagination.page + 3) { %>
+        <li class="disabled"><span>…</span></li>
+      <% } %>
+    <% } %>
+    <% if (pagination.hasNext) { %>
+      <li><a href="<%= base %>?page=<%= pagination.page + 1 %><%= qs ? '&' + qs : '' %>">›</a></li>
+    <% } %>
+  </ul>
+</div>
+<% } %>

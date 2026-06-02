@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const authRouter = require("./auth.route");
-const userRouter = require("./user.route");
 const wishlistRouter = require("./wishlist.route");
 const roomRouter = require("./room.route");
 const reviewRouter = require("./review.route");
@@ -15,7 +14,6 @@ const pusherRouter = require("./pusher.route");
 const chatbotRouter = require("./chatbot.route");
 
 router.use("/auth", authRouter);
-router.use("/users", userRouter);
 router.use("/wishlists", wishlistRouter);
 router.use("/rooms", roomRouter);
 router.use("/reviews", reviewRouter);

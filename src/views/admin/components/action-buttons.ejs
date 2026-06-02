@@ -1,0 +1,23 @@
+<%
+  const hasView = typeof viewUrl !== 'undefined' && viewUrl;
+  const hasEdit = typeof editUrl !== 'undefined' && editUrl;
+  const hasDelete = typeof deleteUrl !== 'undefined' && deleteUrl;
+  const confirmMsg =
+    typeof confirmMessage !== 'undefined' && confirmMessage
+      ? confirmMessage
+      : 'Bạn có chắc chắn?';
+%>
+<div class="action-buttons">
+  <% if (hasView) { %>
+    <a href="<%= viewUrl %>" class="action-btn view" title="Xem"><i class="fas fa-eye"></i></a>
+  <% } %>
+  <% if (hasEdit) { %>
+    <a href="<%= editUrl %>" class="action-btn edit" title="Sửa"><i class="fas fa-edit"></i></a>
+  <% } %>
+  <% if (hasDelete) { %>
+    <form method="POST" action="<%= deleteUrl %>" class="inline-form" onsubmit="return confirm('<%= confirmMsg %>');">
+      <input type="hidden" name="_method" value="DELETE" />
+      <button type="submit" class="action-btn delete" title="Xóa"><i class="fas fa-trash"></i></button>
+    </form>
+  <% } %>
+</div>

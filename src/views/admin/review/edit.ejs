@@ -1,0 +1,31 @@
+<div class="content-header">
+  <h1><%= title %></h1>
+  <a href="/admin/reviews/<%= review.id %>" class="btn btn-secondary">← Quay lại</a>
+</div>
+
+<div class="card" style="padding: 24px;">
+  <form method="POST" action="/admin/reviews/<%= review.id %>?_method=PUT">
+    <div class="form-group">
+      <label for="rating">Điểm đánh giá (1–5)</label>
+      <input
+        type="number"
+        id="rating"
+        name="rating"
+        class="form-control"
+        min="1"
+        max="5"
+        step="0.1"
+        value="<%= old.rating || '' %>"
+      />
+      <% if (errors.rating) { %><span class="error-text"><%= errors.rating %></span><% } %>
+    </div>
+
+    <div class="form-group">
+      <label for="content">Nội dung</label>
+      <textarea id="content" name="content" class="form-control" rows="6" required><%= old.content || '' %></textarea>
+      <% if (errors.content) { %><span class="error-text"><%= errors.content %></span><% } %>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+  </form>
+</div>

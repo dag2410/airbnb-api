@@ -1,0 +1,51 @@
+<div class="content-header">
+  <h1><%= title %></h1>
+</div>
+
+<%- include('../components/filter-bar', {
+  action: '/admin/bookings',
+  filters: [
+    { name: 'status', label: 'Trạng thái', type: 'select', options: statusOptions.map(s => ({ value: s, label: s })) },
+    { name: 'search', label: 'Booking ID', type: 'text', placeholder: 'VD: 12' }
+  ]
+}) %>
+
+<div class="table-container">
+  <% if (!bookings.length) { %>
+    <%- include('../components/empty-state', { title: 'Chưa có booking' }) %>
+  <% } else { %>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>User</th>
+          <th>Phòng</th>
+          <th>Check-in</th>
+          <th>Tổng tiền</th>
+          <th>Trạng thái</th>
+          <th>Thao tác</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% bookings.forEach(function(b) { %>
+          <tr>
+            <td>#<%= b.id %></td>
+            <td><%= b.user ? getDisplayName(b.user) : b.user_id %></td>
+            <td><%= b.room?.title || b.room_id %></td>
+            <td><%= formatDate(b.check_in_date) %></td>
+            <td><%= formatCurrency(b.total_price) %></td>
+            <td><%- include('../components/status-badge', { status: b.status }) %></td>
+            <td>
+              <%- include('../components/action-buttons', {
+                viewUrl: '/admin/bookings/' + b.id,
+                editUrl: '/admin/bookings/' + b.id + '/edit',
+              }) %>
+            </td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+    <% const qs = Object.entries(query || {}).filter(([k,v]) => v && k !== 'page').map(([k,v]) => k + '=' + encodeURIComponent(v)).join('&'); %>
+    <%- include('../components/pagination', { pagination, baseUrl: '/admin/bookings', queryString: qs }) %>
+  <% } %>
+</div>

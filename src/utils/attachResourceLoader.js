@@ -1,7 +1,6 @@
 const throwError = require("./throwError");
 
 const services = {
-  user: require("@/services/user.service"),
   room: require("@/services/room.service"),
   review: require("@/services/review.service"),
   notification: require("@/services/notification.service"),

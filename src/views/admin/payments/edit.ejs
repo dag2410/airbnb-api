@@ -1,0 +1,19 @@
+<div class="content-header">
+  <h1><%= title %></h1>
+  <a href="/admin/payments/<%= payment.id %>" class="btn btn-secondary">← Quay lại</a>
+</div>
+
+<div class="card" style="padding: 24px;">
+  <form method="POST" action="/admin/payments/<%= payment.id %>?_method=PUT">
+    <div class="form-group">
+      <label>Trạng thái</label>
+      <select name="status" class="form-control">
+        <% statusOptions.forEach(function(s) { %>
+          <option value="<%= s %>" <%= payment.status === s ? 'selected' : '' %>><%= s %></option>
+        <% }); %>
+      </select>
+    </div>
+    <p class="text-muted">Provider: <%= payment.provider %> · Amount: <%= formatCurrency(payment.amount) %></p>
+    <button type="submit" class="btn btn-primary">Lưu</button>
+  </form>
+</div>

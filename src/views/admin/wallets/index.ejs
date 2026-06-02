@@ -1,0 +1,40 @@
+<div class="content-header">
+  <h1><%= title %></h1>
+</div>
+
+<%- include('../components/search-form', { action: '/admin/wallets', label: 'Tìm user', placeholder: 'Tìm username...' }) %>
+
+<div class="table-container">
+  <% if (!wallets.length) { %>
+    <%- include('../components/empty-state', { title: 'Chưa có ví' }) %>
+  <% } else { %>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>User</th>
+          <th>Số dư</th>
+          <th>Thời gian</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% wallets.forEach(function(w) { %>
+          <tr>
+            <td>#<%= w.id %></td>
+            <td><%= w.user ? getDisplayName(w.user) : w.user_id %></td>
+            <td><%= formatCurrency(w.balance) %></td>
+            <td><%= formatDate(w.updatedAt) %></td>
+            <td>
+              <%- include('../components/action-buttons', {
+                viewUrl: '/admin/wallets/' + w.id,
+              }) %>
+            </td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+    <% const qs = Object.entries(query || {}).filter(([k,v]) => v && k !== 'page').map(([k,v]) => k + '=' + encodeURIComponent(v)).join('&'); %>
+    <%- include('../components/pagination', { pagination, baseUrl: '/admin/wallets', queryString: qs }) %>
+  <% } %>
+</div>

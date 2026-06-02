@@ -1,0 +1,26 @@
+<div class="content-header">
+  <h1><%= title %></h1>
+  <a href="/admin/bookings" class="btn btn-secondary">← Quay lại</a>
+  <a href="/admin/bookings/<%= booking.id %>/edit" class="btn btn-primary">Sửa</a>
+</div>
+
+<div class="detail-card">
+  <p><strong>User:</strong> <%= booking.user ? getDisplayName(booking.user) : booking.user_id %></p>
+  <p><strong>Phòng:</strong> <%= booking.room?.title || booking.room_id %></p>
+  <p><strong>Check-in:</strong> <%= formatDate(booking.check_in_date) %></p>
+  <p><strong>Check-out:</strong> <%= formatDate(booking.check_out_date) %></p>
+  <p><strong>Tổng tiền:</strong> <%= formatCurrency(booking.total_price) %></p>
+  <p><strong>Trạng thái:</strong> <%- include('../components/status-badge', { status: booking.status }) %></p>
+</div>
+
+<form method="POST" action="/admin/bookings/<%= booking.id %>/status?_method=PUT" class="filter-form" style="margin-top: 20px;">
+  <div class="form-group">
+    <label for="status">Cập nhật trạng thái</label>
+    <select name="status" id="status" class="form-control">
+      <% statusOptions.forEach(function(s) { %>
+        <option value="<%= s %>" <%= booking.status === s ? 'selected' : '' %>><%= s %></option>
+      <% }); %>
+    </select>
+  </div>
+  <button type="submit" class="btn btn-primary">Lưu</button>
+</form>

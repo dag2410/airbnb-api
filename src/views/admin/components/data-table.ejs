@@ -1,0 +1,22 @@
+<div class="table-container">
+  <table class="data-table">
+    <thead>
+      <tr>
+        <% columns.forEach(function(col) { %>
+          <th><%= col.label %></th>
+        <% }); %>
+      </tr>
+    </thead>
+    <tbody>
+      <% if (!rows || rows.length === 0) { %>
+        <tr>
+          <td colspan="<%= columns.length %>">
+            <%- include('./empty-state', { title: emptyTitle, message: emptyMessage }) %>
+          </td>
+        </tr>
+      <% } else { %>
+        <%- body %>
+      <% } %>
+    </tbody>
+  </table>
+</div>

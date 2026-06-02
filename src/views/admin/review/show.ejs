@@ -1,0 +1,36 @@
+<div class="content-header">
+  <h1><%= title %></h1>
+  <a href="/admin/reviews" class="btn btn-secondary">← Quay lại</a>
+</div>
+
+<div class="detail-card">
+  <p><strong>Người viết:</strong> <%= review.author ? review.author.username : review.user_id %></p>
+  <p><strong>Phòng:</strong>
+    <% if (review.room) { %>
+      <a href="/admin/rooms/<%= review.room.id %>"><%= review.room.title %></a>
+    <% } else { %>
+      #<%= review.room_id %>
+    <% } %>
+  </p>
+  <p><strong>Booking:</strong> #<%= review.booking_id || '—' %></p>
+  <p><strong>Điểm:</strong> <%= review.rating || '—' %></p>
+  <p><strong>Đã chỉnh sửa:</strong> <%= review.is_edited ? 'Có' : 'Không' %></p>
+  <p><strong>Ngày tạo:</strong> <%= formatDate(review.created_at) %></p>
+  <p><strong>Nội dung:</strong></p>
+  <p style="white-space: pre-wrap;"><%= review.content %></p>
+
+  <% if (review.reply && review.reply.length) { %>
+    <hr />
+    <p><strong>Phản hồi:</strong></p>
+    <% review.reply.forEach(function(r) { %>
+      <p style="margin-left: 12px;">— <%= r.content %></p>
+    <% }); %>
+  <% } %>
+</div>
+
+<div style="margin-top: 16px; display: flex; gap: 10px;">
+  <a href="/admin/reviews/<%= review.id %>/edit" class="btn btn-primary">Sửa</a>
+  <form method="POST" action="/admin/reviews/<%= review.id %>?_method=DELETE" onsubmit="return confirm('Xóa đánh giá này?')">
+    <button type="submit" class="btn btn-danger">Xóa</button>
+  </form>
+</div>

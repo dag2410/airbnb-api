@@ -1,0 +1,9 @@
+<% const types = ['success', 'error', 'warning', 'info']; %>
+<% types.forEach(function(type) { %>
+  <% getFlashMessages(type).forEach(function(f) { %>
+    <div class="flash-message <%= type %>" role="alert">
+      <i class="fas fa-<%= type === 'success' ? 'check-circle' : type === 'error' ? 'times-circle' : type === 'warning' ? 'exclamation-triangle' : 'info-circle' %>"></i>
+      <span><%= f.message %></span>
+    </div>
+  <% }); %>
+<% }); %>

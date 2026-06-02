@@ -1,84 +1,57 @@
+const AdminUserService = require("@/services/admin/user.admin.service");
+const asyncHandler = require("@/utils/asyncHandler");
 const queue = require("@/utils/queue");
-const usersService = require("@/services/users.service");
 const { verifyToken } = require("@/utils/jwt");
 
-exports.showRegisterForm = async (req, res) => {
-  res.render("admin/auth/register", {
-    layout: "admin/layout/auth",
-    old: {},
-    errors: {},
-  });
-};
-
-exports.register = async (req, res) => {
-  const user = await usersService.create({
-    name: req.body.name,
-    email: req.body.email,
-    password: req.body.password,
-  });
-  queue.dispatch("sendVerifyEmailJob", {
-    userId: user.id,
-    type: "verify-email",
-  });
-  res.flash({
-    type: "success",
-    message: `Chúng tôi đã gửi một email xác thực tới ${user.email}. Hãy kiểm tra inbox và xác minh để tiếp tục.`,
-  });
-  res.redirect("/admin/auth/register");
-};
-
-exports.showLoginForm = async (req, res) => {
+exports.showLoginForm = asyncHandler(async (req, res) => {
   res.render("admin/auth/login", {
     layout: "admin/layout/auth",
+    title: "Đăng nhập Admin",
     old: {},
     errors: {},
   });
-};
+});
 
-exports.login = async (req, res) => {
-  const { email, password } = req.body;
-  const user = await usersService.getByEmailAndPassword(email, password);
+exports.login = asyncHandler(async (req, res) => {
+  req.session.userId = req.user.id;
+  res.flash({ type: "success", message: "Đăng nhập thành công." });
+  return res.redirect("/admin");
+});
 
-  if (user) {
-    req.session.userId = user.id;
-    res.flash({
-      type: "success",
-      message: "Đăng nhập thành công",
-    });
-    return res.redirect("/admin");
-  }
-};
-
-exports.logout = async (req, res) => {
+exports.logout = asyncHandler(async (req, res) => {
   delete req.session.userId;
+  res.flash({ type: "info", message: "Bạn đã đăng xuất." });
   return res.redirect("/admin/auth/login");
-};
+});
 
-exports.showForgotForm = async (req, res) => {
+exports.showForgotForm = asyncHandler(async (req, res) => {
   res.render("admin/auth/forgotPassword", {
     layout: "admin/layout/auth",
+    title: "Quên mật khẩu",
   });
-};
+});
 
-exports.handleForgotPassword = async (req, res) => {
-  const user = await usersService.getByEmail(req.body.email);
+exports.handleForgotPassword = asyncHandler(async (req, res) => {
+  const user = await AdminUserService.getByEmail(req.body.email);
   if (!user) {
     res.flash({
       type: "error",
-      message: "Không thể tìm thấy người dùng với email này",
+      message: "Không tìm thấy người dùng với email này.",
     });
-    res.redirect("/admin/auth/forgot-password");
+    return res.redirect("/admin/auth/forgot-password");
   }
+
   queue.dispatch("sendVerifyEmailJob", {
     userId: user.id,
     type: "reset-password",
   });
+
   res.flash({
     type: "info",
-    message: `Chúng tôi đã gửi một email xác thực tới ${user.email}. Hãy kiểm tra inbox và xác minh để tiếp tục.`,
+    message: `Chúng tôi đã gửi email hướng dẫn tới ${user.email}.`,
   });
   res.redirect("/admin/auth/forgot-password");
-};
+});
 
 exports.showResetForm = async (req, res) => {
   const token = req.query.token;
@@ -100,7 +73,7 @@ exports.handleResetPassword = async (req, res) => {
   }
   const userId = verify.data.userId;
 
-  const user = await usersService.getById(userId);
+  const user = await AdminUserService.getById(userId);
   if (!user || user.id !== userId) {
     res.flash({
       type: "error",
@@ -109,7 +82,7 @@ exports.handleResetPassword = async (req, res) => {
     return res.redirect("/admin/auth/forgot-password");
   }
 
-  await usersService.update(userId, {
+  await AdminUserService.update(userId, {
     password: req.body.newPassword,
     updated_at: new Date(),
   });
@@ -118,30 +91,4 @@ exports.handleResetPassword = async (req, res) => {
     message: "Bạn đã cập nhật mật khẩu mới thành công, xin vui lòng đăng nhập",
   });
   res.redirect("/admin/auth/login");
-};
-
-exports.verifyEmail = async (req, res) => {
-  const token = req.query.token;
-  const verify = verifyToken(token);
-  if (!verify.success) {
-    res.flash({
-      type: "error",
-      message: "Liên kết xác minh không hợp lệ hoặc đã hết hạn",
-    });
-  }
-
-  const userId = verify.data.userId;
-  const user = await usersService.getById(userId);
-  if (user.verified_at) {
-    res.flash({
-      type: "info",
-      message: "Tài khoản đã được xác minh trước đó, giờ bạn có thể đăng nhập",
-    });
-    return res.redirect("/admin/auth/login");
-  }
-  await usersService.update(userId, {
-    verified_at: new Date(),
-  });
-
-  return res.redirect("/admin/auth/login");
 };

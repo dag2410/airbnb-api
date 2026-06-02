@@ -1,0 +1,18 @@
+<% const isPercent = typeof percent !== 'undefined' && percent; const val =
+typeof value !== 'undefined' ? value : 0; const chg = typeof change !==
+'undefined' ? change : 0; const tr = typeof trend !== 'undefined' ? trend :
+'up'; const display = isPercent ? val + '%' : (typeof formatCurrency !==
+'undefined' ? formatCurrency(val) : val); const changeAbs = Math.abs(chg); const
+trendClass = tr === 'up' ? 'up' : 'down'; const trendIcon = tr === 'up' ?
+'fa-arrow-up' : 'fa-arrow-down'; const cardTitle = typeof title !== 'undefined'
+? title : ''; const cardIcon = typeof icon !== 'undefined' ? icon :
+'fa-chart-bar'; %>
+<div class="stat-card">
+  <h3><%= cardTitle %></h3>
+  <p class="stat-value"><%= display %></p>
+  <p class="trend <%= trendClass %>">
+    <i class="fas <%= trendIcon %>"></i>
+    <%= changeAbs %>% so với kỳ trước
+  </p>
+  <div class="stat-icon"><i class="fas <%= cardIcon %>"></i></div>
+</div>
