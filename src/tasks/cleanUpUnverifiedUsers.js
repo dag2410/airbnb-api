@@ -2,7 +2,7 @@ const dayjs = require("dayjs");
 const { Op } = require("sequelize");
 const { User } = require("@/models");
 
-export const cleanUpUnverifiedUsers = async () => {
+async function cleanUpUnverifiedUsers() {
   await User.destroy({
     where: {
       verified_at: {
@@ -13,4 +13,8 @@ export const cleanUpUnverifiedUsers = async () => {
       },
     },
   });
-};
+
+  console.log(`Clean up unverified users at ${new Date()}`);
+}
+
+module.exports = cleanUpUnverifiedUsers;

@@ -5,7 +5,7 @@ const backupDatabase = require("@/tasks/backupDatabase");
 const retryFailJob = require("@/tasks/retryFailJob");
 const expirePendingBookings = require("@/tasks/expirePendingBookings");
 const updateBookingStatuses = require("@/tasks/updateBookingStatuses");
-const { cleanUpUnverifiedUsers } = require("@/tasks/cleanUpUnverifiedUsers");
+const cleanUpUnverifiedUsers = require("@/tasks/cleanUpUnverifiedUsers");
 
 //send daily email
 // scheduleJob("sendDailyResortEmail", "0 2 * * *", sendDailyResortEmail);
