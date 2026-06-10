@@ -12,7 +12,7 @@ const {
 attachResourceLoader(router, ["booking"]);
 
 router.get("/", checkAuth, bookingController.index);
-router.post("/", checkAuth, createBookingValidator, bookingController.store);
+router.post("/", checkAuth, createBookingValidator, bookingController.create);
 
 router.patch(
   "/:booking/cancel",
@@ -27,7 +27,4 @@ router.post(
   checkAvailabilityValidator,
   bookingController.checkAvailability,
 );
-
-
-
 module.exports = router;

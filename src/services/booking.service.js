@@ -1,23 +1,33 @@
-const { Booking, Room, sequelize } = require("@/models");
-const { Op, where } = require("sequelize");
+const { Booking, Room, RoomImage, sequelize } = require("@/models");
+const { Op } = require("sequelize");
 
 class BookingService {
-  async getAll({ page = 1, limit = 10, userId }) {
+  async getAll(userId, page = 1, limit = 10) {
     const offset = (page - 1) * limit;
-    const now = new Date();
-    const threeMonthsAgo = new Date();
-    threeMonthsAgo.setMonth(now.getMonth() - 3);
     const { rows, count } = await Booking.findAndCountAll({
       where: {
         user_id: userId,
       },
+      distinct: true,
       limit,
       offset,
+      include: [
+        {
+          model: Room,
+          as: "room",
+          include: [
+            {
+              model: RoomImage,
+              as: "images",
+            },
+          ],
+        },
+      ],
       order: [["created_at", "DESC"]],
     });
 
     return {
-      data: rows,
+      rows,
       pagination: {
         total: count,
         page,

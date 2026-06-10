@@ -1,15 +1,80 @@
 const { Op, fn, col, literal, where } = require("sequelize");
-const { Room, Wishlist, User, Booking } = require("@/models");
+const { Room, RoomImage, Review, User, Booking } = require("@/models");
 const { default: slugify } = require("slugify");
 const generateUniqueSLug = require("@/utils/generateUniqueSlug");
 
 class RoomService {
-  async getAll({ limit = 20, offset = 0 }) {
-    return await Room.findAndCountAll({
-      limit,
-      offset,
-      order: [["createdAt", "DESC"]],
-    });
+  async getAll() {
+    const [latestRooms, topRatedRooms, hanoiRooms, ninhbinhRooms, budgetRooms] =
+      await Promise.all([
+        Room.findAll({
+          order: [["created_at", "DESC"]],
+          limit: 10,
+          include: [
+            {
+              model: RoomImage,
+              as: "images",
+            },
+          ],
+        }),
+
+        Room.findAll({
+          order: [["rating", "DESC"]],
+          limit: 10,
+          include: [
+            {
+              model: RoomImage,
+              as: "images",
+            },
+          ],
+        }),
+
+        Room.findAll({
+          where: {
+            room_city: "Hà Nội",
+          },
+          limit: 10,
+          include: [
+            {
+              model: RoomImage,
+              as: "images",
+            },
+          ],
+        }),
+
+        Room.findAll({
+          where: {
+            room_city: "Ninh Bình",
+          },
+          limit: 10,
+          include: [
+            {
+              model: RoomImage,
+              as: "images",
+            },
+          ],
+        }),
+
+        Room.findAll({
+          order: [["price_per_night", "ASC"]],
+
+          limit: 10,
+          include: [
+            {
+              model: RoomImage,
+              as: "images",
+            },
+          ],
+        }),
+      ]);
+
+    return {
+      latestRooms,
+      topRatedRooms,
+      hanoiRooms,
+      ninhbinhRooms,
+      budgetRooms,
+    };
   }
 
   async getRoomsByHost(userId, page = 1, limit = 10) {
@@ -22,16 +87,13 @@ class RoomService {
       where: {
         user_id: userId,
       },
-
       limit,
       offset,
-
       order: [["created_at", "DESC"]],
     });
 
     return {
-      rooms: rows,
-
+      rows,
       pagination: {
         total: count,
         page,
@@ -44,6 +106,10 @@ class RoomService {
   async getBySlug(slug) {
     return await Room.findOne({
       where: { slug },
+      include: {
+        model: Review,
+        as: "reviews",
+      },
     });
   }
 

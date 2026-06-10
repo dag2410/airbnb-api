@@ -3,7 +3,13 @@ const { success, error } = require("@/utils/response");
 
 exports.index = async (req, res) => {
   try {
-    const wishlists = await wishlistService.getUserWishlist(req.user.id);
+    const page = Number(req.query.page) || 1;
+    const limit = Number(req.query.limit) || 10;
+    const wishlists = await wishlistService.getUserWishlist(
+      req.user.id,
+      page,
+      limit,
+    );
     success(res, 200, wishlists);
   } catch (err) {
     error(res, 500, err.message);
@@ -14,7 +20,7 @@ exports.toggleLike = async (req, res) => {
   try {
     const wishlist = await wishlistService.toggleLike(
       req.user.id,
-      req.body.room_id
+      req.body.room_id,
     );
     success(res, 201, wishlist);
   } catch (err) {

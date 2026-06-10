@@ -3,8 +3,10 @@ const { success, error } = require("@/utils/response");
 
 exports.index = async (req, res) => {
   try {
+    const page = 1;
+    const limit = 10;
     const user_id = req.user.id;
-    const result = await notificationService.getAll(user_id);
+    const result = await notificationService.getAll(user_id, page, limit);
     success(res, 200, result);
   } catch (err) {
     error(res, 500, err.message);
@@ -35,7 +37,7 @@ exports.destroy = async (req, res) => {
     const notifiable_id = req.notification.id;
     const result = await notificationService.deleteNotification(
       user_id,
-      notifiable_id
+      notifiable_id,
     );
     success(res, 200, result);
   } catch (err) {

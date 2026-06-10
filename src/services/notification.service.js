@@ -1,8 +1,14 @@
 const { Notification, User, sequelize } = require("@/models");
 
 class NotificationService {
-  async getAll(user_id) {
-    return await Notification.findAll({
+  async getAll(user_id, page = 1, limit = 10) {
+    const pageNum = Number(page) || 1;
+    const limitNum = Number(limit) || 10;
+    const offsetNum = (pageNum - 1) * limitNum;
+    const { rows, count } = await Notification.findAndCountAll({
+      distinct: true,
+      limit: limitNum,
+      offset: offsetNum,
       include: [
         {
           model: User,
@@ -19,6 +25,15 @@ class NotificationService {
       ],
       order: [["createdAt", "DESC"]],
     });
+    return {
+      rows,
+      pagination: {
+        total: count,
+        page: pageNum,
+        limit: limitNum,
+        totalPage: Math.ceil(count / limitNum),
+      },
+    };
   }
 
   async getById(notifiable_id) {
@@ -91,7 +106,7 @@ class NotificationService {
           notificationId: notification_id,
         },
         type: sequelize.QueryTypes.UPDATE,
-      }
+      },
     );
     return {
       message: "Thông báo đã được đọc.",
@@ -111,7 +126,7 @@ class NotificationService {
           userId: user_id,
         },
         type: sequelize.QueryTypes.UPDATE,
-      }
+      },
     );
 
     return { message: "Tất cả thông báo đã được đọc." };

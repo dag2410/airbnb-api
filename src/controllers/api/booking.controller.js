@@ -6,14 +6,14 @@ exports.index = async (req, res) => {
     const page = parseInt(req.query.page);
     const limit = parseInt(req.query.limit);
     const userId = req.user.id;
-    const bookings = await bookingService.getAll({ page, limit, userId });
+    const bookings = await bookingService.getAll(userId, page, limit);
     success(res, 200, bookings);
   } catch (err) {
     error(res, 500, "Lỗi xảy ra khi tải dữ liệu booking!", err.message);
   }
 };
 
-exports.store = async (req, res) => {
+exports.create = async (req, res) => {
   try {
     const userId = req.user.id;
     const {

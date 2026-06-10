@@ -3,30 +3,7 @@ const { success, error } = require("@/utils/response");
 
 exports.index = async (req, res) => {
   try {
-    const { type, limit, offset } = req.query;
-    let rooms;
-
-    switch (type) {
-      case "latest":
-        rooms = await roomService.getLatest(limit);
-        break;
-
-      case "trending":
-        rooms = await roomService.getTrending(limit);
-        break;
-
-      case "top_rated":
-        rooms = await roomService.getTopRated(limit);
-        break;
-
-      default:
-        rooms = await roomService.getAll({
-          limit: limit || 20,
-          offset: offset || 0,
-        });
-        break;
-    }
-
+    const rooms = await roomService.getAll();
     success(res, 200, rooms);
   } catch (err) {
     error(res, 500, err.message);

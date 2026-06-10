@@ -1,25 +1,53 @@
 const pusher = require("@/configs/pusher");
-const { Wishlist, Room, User } = require("@/models");
+const { Wishlist, Room, User, RoomImage } = require("@/models");
+const { districts } = require("vietnam-provinces");
 
 class WishlistService {
-  async getUserWishlist(userId) {
-    const wishlists = await Wishlist.findAll({
-      where: { user_id: userId },
+  async getUserWishlist(userId, page = 1, limit = 10) {
+    const pageNum = Number(page) || 1;
+    const limitNum = Number(limit) || 10;
+    const offsetNum = (pageNum - 1) * limitNum;
+
+    const { rows, count } = await Wishlist.findAndCountAll({
+      distinct: true,
+
+      where: {
+        user_id: userId,
+      },
+      limit: limitNum,
+      offset: offsetNum,
       include: [
         {
           model: Room,
           as: "room",
+          required: true,
           include: [
             {
               model: User,
               as: "host",
+              required: true,
+            },
+            {
+              model: RoomImage,
+              as: "images",
+              required: true,
             },
           ],
         },
       ],
+
+      order: [["createdAt", "DESC"]],
     });
 
-    return wishlists;
+    return {
+      rows,
+      pagination: {
+        total: count,
+        page: pageNum,
+        limit: limitNum,
+        totalPage: Math.ceil(count / limitNum),
+      },
+    };
   }
 
   async toggleLike(userId, roomId) {
